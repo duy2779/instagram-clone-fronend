@@ -1,57 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import * as ROUTERS from './constants/Routes'
+import PrivateRoute from './helpers/PrivateRoute'
+
+const Login = lazy(() => import('./pages/Login'));
+const SignUp = lazy(() => import('./pages/SignUp'));
+const DashBoard = lazy(() => import('./pages/DashBoard'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <Router>
+      <Suspense fallback={<p className="text-center">Loading...</p>}>
+        <Switch>
+          <PrivateRoute path={ROUTERS.DASHBOARD} exact>
+            <DashBoard />
+          </PrivateRoute>
+          <Route path={ROUTERS.LOGIN} component={Login} />
+          <Route path={ROUTERS.SIGNUP} component={SignUp} />
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
+    </Router>
   );
 }
 
