@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
-import apiURL from '../constants/API'
+import { getApiURL } from './config'
 
 const initialState = {
     isFetching: false,
@@ -15,7 +15,7 @@ export const login = createAsyncThunk(
     'auth/login',
     async ({ username, password }, thunkAPI) => {
         try {
-            const response = await axios.post(apiURL + 'accounts/login', {
+            const response = await axios.post(getApiURL('accounts/login'), {
                 username, password
             })
             let data = response.data
@@ -41,7 +41,7 @@ export const signUp = createAsyncThunk(
     'auth/signUp',
     async ({ username, password, full_name, email }, thunkAPI) => {
         try {
-            const response = await axios.post(apiURL + 'api/accounts/register', {
+            const response = await axios.post(getApiURL('accounts/register'), {
                 username, password, full_name, email
             })
             let data = response.data
@@ -54,7 +54,7 @@ export const signUp = createAsyncThunk(
         } catch (error) {
             if (!error.response) {
                 console.log(error)
-                return thunkAPI.rejectWithValue("Web sever is down.")
+                return thunkAPI.rejectWithValue("Web server is down.")
             }
             const errorMessage = error.response.data.error_message
             console.log(errorMessage)
@@ -73,7 +73,7 @@ export const signUp = createAsyncThunk(
 )
 
 const authSlice = createSlice({
-    name: 'authentication',
+    name: 'auth',
     initialState,
     reducers: {
         clearAuth: (state) => {

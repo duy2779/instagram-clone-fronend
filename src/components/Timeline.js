@@ -1,7 +1,7 @@
 const Timeline = () => {
     return (
-        <div>
-            i am timeline
+        <div className="container col-span-2 bg-white">
+
         </div>
     )
 }
