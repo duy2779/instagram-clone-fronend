@@ -4,7 +4,7 @@ import Timeline from "../components/Timeline"
 import Sidebar from "../components/sidebar/Sidebar"
 import { useDispatch, useSelector } from 'react-redux'
 
-import { userSelector, getUser, clearUser } from '../features/userSlice'
+import { userSelector, getUser, getUserRecommended, clearStatus } from '../features/userSlice'
 
 const DashBoard = () => {
     const dispatch = useDispatch()
@@ -13,11 +13,12 @@ const DashBoard = () => {
     useEffect(() => {
         document.title = "Instagram"
         dispatch(getUser())
+        dispatch(getUserRecommended())
     }, [dispatch])
 
     useEffect(() => {
         if (isSuccess) {
-            dispatch(clearUser())
+            dispatch(clearStatus())
         }
     }, [isSuccess, dispatch])
 
