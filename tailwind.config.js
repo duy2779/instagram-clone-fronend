@@ -8,10 +8,6 @@ module.exports = {
           medium: '#0095F6',
           fb: '#3B5487',
         },
-        black: {
-          light: '#005c98',
-          faded: '#00000059',
-        },
         gray: {
           base: '#616161',
           background: '#fafafa',

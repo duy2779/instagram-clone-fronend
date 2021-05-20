@@ -3,6 +3,7 @@ import Header from "../components/Header"
 import Timeline from "../components/Timeline"
 import Sidebar from "../components/sidebar/Sidebar"
 import { useDispatch, useSelector } from 'react-redux'
+import UserModal from '../components/UserModal'
 
 import { userSelector, getUser, getUserRecommended, clearStatus } from '../features/userSlice'
 
@@ -23,13 +24,16 @@ const DashBoard = () => {
     }, [isSuccess, dispatch])
 
     return (
-        <div className="bg-gray-background">
-            <Header userAvatar={currentUser.avatar_pic} />
-            <div className="grid grid-cols-3 gap-8 justify-between mx-auto max-w-screen-lg">
-                <Timeline />
-                <Sidebar />
+        <>
+            <div className="bg-gray-background">
+                <Header userAvatar={currentUser.avatar_pic} />
+                <div className="grid grid-cols-3 gap-8 justify-between mx-auto max-w-screen-lg">
+                    <Timeline />
+                    <Sidebar />
+                </div>
             </div>
-        </div>
+            <UserModal />
+        </>
     )
 }
 

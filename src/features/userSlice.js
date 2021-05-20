@@ -1,9 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { get, getApiURL } from './config'
+import { get, post, getApiURL } from './config'
 
 const initialState = {
     currentUser: {},
     usersRecommended: [],
+    unFollowUserModal: {
+        show: false,
+        username: '',
+        avatar: '',
+        unfollow: false
+    },
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -66,6 +72,33 @@ export const getUserRecommended = createAsyncThunk(
     }
 )
 
+export const followUser = createAsyncThunk(
+    'user/followUser',
+    async (username, thunkAPI) => {
+        try {
+            const response = await post({
+                url: getApiURL(`accounts/follow/${username}`)
+            })
+
+            let data = response.data
+            if (response.status === 200) {
+                return data
+            }
+            else {
+                return thunkAPI.rejectWithValue(data)
+            }
+        } catch (error) {
+            if (!error.response) {
+                console.log(error)
+                return thunkAPI.rejectWithValue("Web server is down.")
+            }
+            console.log(error.response.data)
+            const errorMessage = error.response.data
+            return thunkAPI.rejectWithValue(errorMessage)
+        }
+    }
+)
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -79,6 +112,26 @@ const userSlice = createSlice({
         clearUser: (state) => {
             state.currentUser = {}
             state.usersRecommended = []
+        },
+        showUnFollowUserModal: (state, { payload }) => {
+            let modal = state.unFollowUserModal
+            modal.show = true
+            modal.username = payload.username
+            modal.avatar = payload.avatar_pic
+
+            state.unFollowUserModal = modal
+        },
+        hideUnFollowUserModal: (state) => {
+            let modal = state.unFollowUserModal
+            modal.show = false
+            modal.username = ''
+            modal.avatar = ''
+            modal.unfollow = false
+
+            state.unFollowUserModal = modal
+        },
+        unfollowModalTrue: (state) => {
+            state.unFollowUserModal.unfollow = true
         }
     },
     extraReducers: {
@@ -109,11 +162,27 @@ const userSlice = createSlice({
             state.isError = true
             state.errorMessage = payload
         },
+        //folow user
+        [followUser.pending]: (state) => {
+            state.isFetching = true
+        },
+        [followUser.fulfilled]: (state) => {
+            state.isFetching = false
+            state.isSuccess = true
+        },
+        [followUser.rejected]: (state, { payload }) => {
+            state.isFetching = false
+            state.isError = true
+            state.errorMessage = payload
+        },
     }
 });
 
 export const {
     clearStatus,
-    clearUser
+    clearUser,
+    showUnFollowUserModal,
+    hideUnFollowUserModal,
+    unfollowModalTrue
 } = userSlice.actions
 export default userSlice.reducer

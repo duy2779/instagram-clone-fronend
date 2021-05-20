@@ -13,12 +13,9 @@ const Suggestions = () => {
                 usersRecommended.map(user => {
                     return <UserSuggestion
                         key={user.id}
-                        username={user.username}
-                        fullname={user.full_name}
-                        avatar={user.avatar_pic} />
+                        userRecommend={user} />
                 })
             }
-
         </div>
     )
 }
