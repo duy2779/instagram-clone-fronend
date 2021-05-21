@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import Header from "../components/Header"
-import Timeline from "../components/Timeline"
+import Timeline from "../components/timeline"
 import Sidebar from "../components/sidebar/Sidebar"
 import { useDispatch, useSelector } from 'react-redux'
 import UserModal from '../components/UserModal'
