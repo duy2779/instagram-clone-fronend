@@ -2,7 +2,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { get, getApiURL } from './config'
 
 const initialState = {
-    posts: [],
+    posts: {
+        next: null,
+        results: []
+    },
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -11,10 +14,10 @@ const initialState = {
 
 export const getPosts = createAsyncThunk(
     'user/getPosts',
-    async (thunkAPI) => {
+    async ({ nextURL }, thunkAPI) => {
         try {
             const response = await get({
-                url: getApiURL('post/posts')
+                url: nextURL || getApiURL('post/posts')
             })
 
             let data = response.data
@@ -46,6 +49,7 @@ const postSlice = createSlice({
             state.isSuccess = false
             state.errorMessage = ""
         },
+        clearPost: (state) => initialState
     },
     extraReducers: {
         [getPosts.pending]: (state) => {
@@ -65,6 +69,6 @@ const postSlice = createSlice({
 });
 
 export const {
-    clearStatus
+    clearStatus, clearPost
 } = postSlice.actions
 export default postSlice.reducer
