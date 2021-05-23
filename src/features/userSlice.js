@@ -3,6 +3,7 @@ import { get, post, getApiURL } from './config'
 
 const initialState = {
     currentUser: {},
+    userFocus: {},
     usersRecommended: [],
     unFollowUserModal: {
         show: false,
@@ -24,6 +25,33 @@ export const getUser = createAsyncThunk(
         try {
             const response = await get({
                 url: getApiURL('accounts/user')
+            })
+
+            let data = response.data
+            if (response.status === 200) {
+                return data
+            }
+            else {
+                return thunkAPI.rejectWithValue(data)
+            }
+        } catch (error) {
+            if (!error.response) {
+                console.log(error)
+                return thunkAPI.rejectWithValue("Web server is down.")
+            }
+            console.log(error.response.data)
+            const errorMessage = error.response.data
+            return thunkAPI.rejectWithValue(errorMessage)
+        }
+    }
+)
+
+export const getUserByUserName = createAsyncThunk(
+    'user/getUserByUserName',
+    async ({ username }, thunkAPI) => {
+        try {
+            const response = await get({
+                url: getApiURL(`accounts/get-user/${username}`)
             })
 
             let data = response.data
@@ -144,6 +172,20 @@ const userSlice = createSlice({
             state.isSuccess = true
         },
         [getUser.rejected]: (state, { payload }) => {
+            state.isFetching = false
+            state.isError = true
+            state.errorMessage = payload
+        },
+        //get user by username 
+        [getUserByUserName.pending]: (state) => {
+            state.isFetching = true
+        },
+        [getUserByUserName.fulfilled]: (state, { payload }) => {
+            state.userFocus = payload
+            state.isFetching = false
+            state.isSuccess = true
+        },
+        [getUserByUserName.rejected]: (state, { payload }) => {
             state.isFetching = false
             state.isError = true
             state.errorMessage = payload
