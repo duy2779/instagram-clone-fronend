@@ -3,17 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import PostSkeleton from './PostSkeleton'
 
-import Post from './Post';
+import Post from './post';
 import { getPosts, clearPost } from '../../features/postSlice'
 
 const Timeline = () => {
     const dispatch = useDispatch()
-    const { posts, isFetching } = useSelector((state) => state.post)
+    const { posts } = useSelector((state) => state.post)
     const { results, next, count } = posts
 
-    console.log(isFetching)
-
-    const [allPosts, setAllPosts] = useState(results)
+    const [allPosts, setAllPosts] = useState([])
     const [hasMore, setHasMore] = useState(true)
 
     useEffect(() => {
@@ -26,6 +24,9 @@ const Timeline = () => {
 
     useEffect(() => {
         function addMoreToPosts() {
+            if (!count) {
+                return
+            }
             if (count === 0) {
                 setHasMore(false)
                 return
@@ -46,11 +47,10 @@ const Timeline = () => {
     return (
         <div className="container col-span-2">
             {
-                isFetching ? (
+                !results ? (
                     <PostSkeleton />
-                ) : count === 0 ? (
-                    <p>No posts</p>
-                ) : (
+                ) : allPosts.length > 0 ? (
+
                     <InfiniteScroll
                         dataLength={allPosts.length}
                         next={() => getMorePosts()}
@@ -67,6 +67,8 @@ const Timeline = () => {
 
                         }
                     </InfiniteScroll>
+                ) : (
+                    <p>No Posts</p>
                 )
             }
         </div>

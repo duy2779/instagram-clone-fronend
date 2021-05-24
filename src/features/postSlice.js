@@ -2,10 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { get, getApiURL } from './config'
 
 const initialState = {
-    posts: {
-        next: null,
-        results: []
-    },
+    posts: {},
     isFetching: false,
     isSuccess: false,
     isError: false,
