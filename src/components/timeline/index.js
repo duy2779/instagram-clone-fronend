@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import PostSkeleton from './PostSkeleton'
 
 import Post from './Post';
 import { getPosts, clearPost } from '../../features/postSlice'
 
 const Timeline = () => {
     const dispatch = useDispatch()
-    const { posts } = useSelector((state) => state.post)
+    const { posts, isFetching } = useSelector((state) => state.post)
     const { results, next, count } = posts
+
+    console.log(isFetching)
 
     const [allPosts, setAllPosts] = useState(results)
     const [hasMore, setHasMore] = useState(true)
@@ -42,21 +45,30 @@ const Timeline = () => {
 
     return (
         <div className="container col-span-2">
-            <InfiniteScroll
-                dataLength={allPosts.length}
-                next={() => getMorePosts()}
-                hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
-                endMessage={
-                    <p style={{ textAlign: 'center' }}>
-                        <b>Yay! You have seen it all</b>
-                    </p>
-                }
-            >
-                {
-                    allPosts.map(post => <Post key={post.id} post={post} />)
-                }
-            </InfiniteScroll>
+            {
+                isFetching ? (
+                    <PostSkeleton />
+                ) : count === 0 ? (
+                    <p>No posts</p>
+                ) : (
+                    <InfiniteScroll
+                        dataLength={allPosts.length}
+                        next={() => getMorePosts()}
+                        hasMore={hasMore}
+                        endMessage={
+                            <p style={{ textAlign: 'center' }}>
+                                <b>Yay! You have seen it all</b>
+                            </p>
+                        }
+                    >
+                        {
+
+                            allPosts.map(post => <Post key={post.id} post={post} />)
+
+                        }
+                    </InfiniteScroll>
+                )
+            }
         </div>
     )
 }
