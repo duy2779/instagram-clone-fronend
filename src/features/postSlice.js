@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { get, getApiURL } from './config'
+import { get, post, getApiURL } from './config'
 
 const initialState = {
     posts: {},
@@ -15,6 +15,33 @@ export const getPosts = createAsyncThunk(
         try {
             const response = await get({
                 url: nextURL || getApiURL('post/posts')
+            })
+
+            let data = response.data
+            if (response.status === 200) {
+                return data
+            }
+            else {
+                return thunkAPI.rejectWithValue(data)
+            }
+        } catch (error) {
+            if (!error.response) {
+                console.log(error)
+                return thunkAPI.rejectWithValue("Web server is down.")
+            }
+            console.log(error.response.data)
+            const errorMessage = error.response.data
+            return thunkAPI.rejectWithValue(errorMessage)
+        }
+    }
+)
+
+export const postToggleLike = createAsyncThunk(
+    'user/toggleLike',
+    async ({ postID }, thunkAPI) => {
+        try {
+            const response = await post({
+                url: getApiURL(`post/toggle-like/${postID}`)
             })
 
             let data = response.data
@@ -58,6 +85,19 @@ const postSlice = createSlice({
             state.isSuccess = true
         },
         [getPosts.rejected]: (state, { payload }) => {
+            state.isFetching = false
+            state.isError = true
+            state.errorMessage = payload
+        },
+        //toggle like
+        [postToggleLike.pending]: (state) => {
+            state.isFetching = true
+        },
+        [postToggleLike.fulfilled]: (state) => {
+            state.isFetching = false
+            state.isSuccess = true
+        },
+        [postToggleLike.rejected]: (state, { payload }) => {
             state.isFetching = false
             state.isError = true
             state.errorMessage = payload

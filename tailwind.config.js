@@ -21,7 +21,12 @@ module.exports = {
       fontSize: {
         xxs: '0.7rem'
       }
-    }
+    },
+    fill: theme => ({
+      'red': theme('colors.red.500'),
+      'green': theme('colors.green.500'),
+      'blue': theme('colors.blue.500'),
+    })
   },
   variants: {
     extend: {
