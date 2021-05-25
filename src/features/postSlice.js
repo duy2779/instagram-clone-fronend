@@ -89,6 +89,7 @@ const postSlice = createSlice({
             state.isError = true
             state.errorMessage = payload
         },
+
         //toggle like
         [postToggleLike.pending]: (state) => {
             state.isFetching = true
