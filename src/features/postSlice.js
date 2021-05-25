@@ -63,6 +63,35 @@ export const postToggleLike = createAsyncThunk(
     }
 )
 
+export const addComment = createAsyncThunk(
+    'user/addComment',
+    async ({ post_id, comment }, thunkAPI) => {
+        try {
+            const response = await post({
+                url: getApiURL(`post/add-comment/${post_id}`),
+                payload: { comment }
+            })
+
+            let data = response.data
+            if (response.status === 200) {
+                return data
+            }
+            else {
+                return thunkAPI.rejectWithValue(data)
+            }
+        } catch (error) {
+            if (!error.response) {
+                console.log(error)
+                return thunkAPI.rejectWithValue("Web server is down.")
+            }
+            console.log(error.response.data)
+            const errorMessage = error.response.data
+            return thunkAPI.rejectWithValue(errorMessage)
+        }
+    }
+)
+
+
 const postSlice = createSlice({
     name: 'post',
     initialState,
@@ -99,6 +128,19 @@ const postSlice = createSlice({
             state.isSuccess = true
         },
         [postToggleLike.rejected]: (state, { payload }) => {
+            state.isFetching = false
+            state.isError = true
+            state.errorMessage = payload
+        },
+        //add comment
+        [addComment.pending]: (state) => {
+            state.isFetching = true
+        },
+        [addComment.fulfilled]: (state) => {
+            state.isFetching = false
+            state.isSuccess = true
+        },
+        [addComment.rejected]: (state, { payload }) => {
             state.isFetching = false
             state.isError = true
             state.errorMessage = payload

@@ -29,7 +29,7 @@ const PostInfo = ({ username, likes_count, caption, created, users_like, postID,
                 <span className="font-semibold">{username}</span>
                 {` ${caption}`}
             </p>
-            <Comments allComments={comments} />
+            <Comments comments={comments} />
             <p className="ml-1 text-gray-secondary text-xxs leading-3">{distanceTime.toUpperCase()}</p>
         </div>
     )
