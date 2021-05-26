@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux'
 import authReducer from '../features/authSlice'
 import userReducer from '../features/userSlice'
@@ -11,5 +11,9 @@ const reducer = combineReducers({
 })
 
 export const store = configureStore({
-  reducer
+  reducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck:
+      false
+  }),
 });

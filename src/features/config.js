@@ -23,6 +23,13 @@ export const post = ({ url, payload }) =>
         },
     })
 
+export const postWithFile = ({ url, payload }) =>
+    axios.post(url, payload, {
+        headers: {
+            Authorization: `Bearer ${accessToken()}`
+        },
+    })
+
 
 export const patch = ({ url, payload }) =>
     axios.patch(url, payload, {

@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import * as ROUTERS from './constants/Routes'
 import PrivateRoute from './helpers/PrivateRoute'
+import CreatePostModal from './components/CreatePostModal'
 
 const Login = lazy(() => import('./pages/Login'));
 const SignUp = lazy(() => import('./pages/SignUp'));
@@ -20,6 +21,7 @@ function App() {
           <Route path={ROUTERS.SIGNUP} component={SignUp} />
           <Route component={NotFound} />
         </Switch>
+        <CreatePostModal />
       </Suspense>
     </Router>
   );

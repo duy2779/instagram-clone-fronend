@@ -1,8 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { get, post, getApiURL } from './config'
+import { get, post, postWithFile, getApiURL } from './config'
 
 const initialState = {
     posts: {},
+    createPostModal: {
+        show: false,
+        image: '',
+        imagePreview: ''
+    },
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -91,6 +96,37 @@ export const addComment = createAsyncThunk(
     }
 )
 
+export const createPost = createAsyncThunk(
+    'user/createPost',
+    async ({ caption, image }, thunkAPI) => {
+        try {
+            let formData = new FormData()
+            formData.append('caption', caption)
+            formData.append('image', image)
+            const response = await postWithFile({
+                url: getApiURL(`post/create-post`),
+                payload: formData
+            })
+
+            let data = response.data
+            if (response.status === 201) {
+                return data
+            }
+            else {
+                return thunkAPI.rejectWithValue(data)
+            }
+        } catch (error) {
+            if (!error.response) {
+                console.log(error)
+                return thunkAPI.rejectWithValue("Web server is down.")
+            }
+            console.log(error.response.data)
+            const errorMessage = error.response.data
+            return thunkAPI.rejectWithValue(errorMessage)
+        }
+    }
+)
+
 
 const postSlice = createSlice({
     name: 'post',
@@ -102,7 +138,23 @@ const postSlice = createSlice({
             state.isSuccess = false
             state.errorMessage = ""
         },
-        clearPost: (state) => initialState
+        clearPost: (state) => initialState,
+        showCreatePostModal: (state, { payload }) => {
+            let modal = state.createPostModal
+            console.log(payload)
+            modal.show = true
+            modal.image = payload.image
+            modal.imagePreview = payload.imagePreview
+
+            state.createPostModal = modal
+        },
+        hideCreatePostModal: (state) => {
+            let modal = state.createPostModal
+            modal.show = false
+            modal.image = ''
+            modal.imagePreview = ''
+            state.createPostModal = modal
+        }
     },
     extraReducers: {
         [getPosts.pending]: (state) => {
@@ -145,10 +197,23 @@ const postSlice = createSlice({
             state.isError = true
             state.errorMessage = payload
         },
+        //create post
+        [createPost.pending]: (state) => {
+            state.isFetching = true
+        },
+        [createPost.fulfilled]: (state) => {
+            state.isFetching = false
+            state.isSuccess = true
+        },
+        [createPost.rejected]: (state, { payload }) => {
+            state.isFetching = false
+            state.isError = true
+            state.errorMessage = payload
+        },
     }
 });
 
 export const {
-    clearStatus, clearPost
+    clearStatus, clearPost, showCreatePostModal, hideCreatePostModal
 } = postSlice.actions
 export default postSlice.reducer
