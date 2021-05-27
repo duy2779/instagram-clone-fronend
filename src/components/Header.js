@@ -2,14 +2,15 @@ import { Link, useHistory } from "react-router-dom"
 import * as ROUTES from '../constants/Routes'
 import { logOut } from "../features/authSlice"
 import { clearUser } from "../features/userSlice"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { backendURL } from '../constants/BackendConfig'
 import Skeleton from 'react-loading-skeleton'
 import UploadImageButton from './UploadImageButton'
 
-const Header = ({ userAvatar }) => {
+const Header = () => {
     const dispatch = useDispatch()
     const history = useHistory()
+    const { currentUser } = useSelector(state => state.user)
 
     const logOutOnClick = () => {
         dispatch(logOut())
@@ -62,9 +63,9 @@ const Header = ({ userAvatar }) => {
                         </button>
                         {/* avatar link */}
                         {
-                            userAvatar ? (
-                                <Link to='/profile'>
-                                    <img src={backendURL + userAvatar} alt='profile_avatar' className="w-6 h-6 rounded-full" />
+                            currentUser.avatar_pic ? (
+                                <Link to={`/profile/${currentUser.username}`}>
+                                    <img src={backendURL + currentUser.avatar_pic} alt='profile_avatar' className="w-6 h-6 rounded-full" />
                                 </Link>
                             ) : (
                                 <Skeleton circle={true} height={24} width={24} />

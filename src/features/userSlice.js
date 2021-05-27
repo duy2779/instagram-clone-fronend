@@ -51,7 +51,7 @@ export const getUserByUserName = createAsyncThunk(
     async ({ username }, thunkAPI) => {
         try {
             const response = await get({
-                url: getApiURL(`accounts/get-user/${username}`)
+                url: getApiURL(`accounts/user/${username}`)
             })
 
             let data = response.data
@@ -59,16 +59,17 @@ export const getUserByUserName = createAsyncThunk(
                 return data
             }
             else {
-                return thunkAPI.rejectWithValue(data)
+                if (response.status === 204)
+                    return thunkAPI.rejectWithValue({ message: data, exists: false })
             }
         } catch (error) {
             if (!error.response) {
                 console.log(error)
-                return thunkAPI.rejectWithValue("Web server is down.")
+                return thunkAPI.rejectWithValue({ message: "Web server is down." })
             }
             console.log(error.response.data)
             const errorMessage = error.response.data
-            return thunkAPI.rejectWithValue(errorMessage)
+            return thunkAPI.rejectWithValue({ message: errorMessage })
         }
     }
 )
@@ -188,7 +189,10 @@ const userSlice = createSlice({
         [getUserByUserName.rejected]: (state, { payload }) => {
             state.isFetching = false
             state.isError = true
-            state.errorMessage = payload
+            state.errorMessage = payload.message
+            if (!payload.exists) {
+                state.userFocus = false
+            }
         },
         //get users recommented
         [getUserRecommended.pending]: (state) => {

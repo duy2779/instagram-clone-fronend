@@ -9,7 +9,7 @@ const User = ({ username, fullname, avatar }) => {
         <div className="flex mb-5 items-center">
             {
                 avatar ? (
-                    <Link to="/profile">
+                    <Link to={`/profile/${username}`}>
                         <img src={backendURL + avatar} alt="avatar_picture" className="w-16 h-16 rounded-full mr-5" />
                     </Link>
                 ) : (
@@ -20,7 +20,7 @@ const User = ({ username, fullname, avatar }) => {
             <div className="flex flex-col">
                 {
                     username ? (
-                        <Link to="/profile">
+                        <Link to={`/profile/${username}`}>
                             <p className="font-semibold">{username}</p>
                         </Link>
                     ) : (

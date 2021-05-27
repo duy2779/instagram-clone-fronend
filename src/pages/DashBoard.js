@@ -5,15 +5,14 @@ import Sidebar from "../components/sidebar/Sidebar"
 import { useDispatch, useSelector } from 'react-redux'
 import UserModal from '../components/UserModal'
 
-import { userSelector, getUser, getUserRecommended, clearStatus } from '../features/userSlice'
+import { userSelector, getUserRecommended, clearStatus } from '../features/userSlice'
 
 const DashBoard = () => {
     const dispatch = useDispatch()
-    const { isSuccess, currentUser } = useSelector(userSelector)
+    const { isSuccess } = useSelector(userSelector)
 
     useEffect(() => {
         document.title = "Instagram"
-        dispatch(getUser())
         dispatch(getUserRecommended())
     }, [dispatch])
 
@@ -26,7 +25,7 @@ const DashBoard = () => {
     return (
         <>
             <div className="bg-gray-background">
-                <Header userAvatar={currentUser.avatar_pic} />
+                <Header />
                 <div className="grid grid-cols-3 gap-8 justify-between mx-auto max-w-screen-lg">
                     <Timeline />
                     <Sidebar />

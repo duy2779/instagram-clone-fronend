@@ -3,6 +3,7 @@ import axios from 'axios';
 import { getApiURL } from './config'
 
 const initialState = {
+    isAuthenticated: false,
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -82,8 +83,9 @@ const authSlice = createSlice({
             state.isSuccess = false
             state.errorMessage = ""
         },
-        logOut: () => {
+        logOut: (state) => {
             localStorage.removeItem('token')
+            state.isAuthenticated = false
         }
     },
     extraReducers: {
@@ -95,6 +97,7 @@ const authSlice = createSlice({
 
             state.isFetching = false
             state.isSuccess = true
+            state.isAuthenticated = true
         },
         [login.rejected]: (state, { payload }) => {
             state.isFetching = false
