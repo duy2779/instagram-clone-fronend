@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Modal from '../common/Modal'
-import { hideCreatePostModal } from '../features/postSlice'
+import { hideCreatePostModal, getPosts } from '../features/postSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { backendURL } from '../constants/BackendConfig'
 import { createPost } from '../features/postSlice'
@@ -14,6 +14,7 @@ function CreatePostModal() {
 
     const handleCreatePost = async () => {
         await dispatch(createPost({ caption, image: createPostModal.image }))
+        await dispatch(getPosts({ nextURL: null }))
         dispatch(hideCreatePostModal())
     }
 

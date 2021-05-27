@@ -9,7 +9,7 @@ import { getPosts, clearPost } from '../../features/postSlice'
 const Timeline = () => {
     const dispatch = useDispatch()
     const { posts } = useSelector((state) => state.post)
-    const { results, next, count } = posts
+    const { results, next, count, previous } = posts
 
     const [allPosts, setAllPosts] = useState([])
     const [hasMore, setHasMore] = useState(true)
@@ -31,9 +31,14 @@ const Timeline = () => {
                 setHasMore(false)
                 return
             }
+            if (!previous) {
+                setAllPosts(results)
+                return
+            }
             setAllPosts(allPosts => allPosts.concat(results))
         }
         addMoreToPosts()
+        // eslint-disable-next-line
     }, [results, count])
 
     const getMorePosts = () => {
