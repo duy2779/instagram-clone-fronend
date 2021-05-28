@@ -161,6 +161,9 @@ const userSlice = createSlice({
         },
         unfollowModalTrue: (state) => {
             state.unFollowUserModal.unfollow = true
+        },
+        clearUserFocus(state) {
+            state.userFocus = {}
         }
     },
     extraReducers: {
@@ -229,6 +232,7 @@ export const {
     clearUser,
     showUnFollowUserModal,
     hideUnFollowUserModal,
-    unfollowModalTrue
+    unfollowModalTrue,
+    clearUserFocus
 } = userSlice.actions
 export default userSlice.reducer

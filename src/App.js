@@ -7,6 +7,7 @@ import IsLoggedIn from './helpers/isLoggedIn'
 import CreatePostModal from './components/CreatePostModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from './features/userSlice'
+import UserModal from './components/UserModal'
 
 const Login = lazy(() => import('./pages/Login'));
 const SignUp = lazy(() => import('./pages/SignUp'));
@@ -42,6 +43,7 @@ function App() {
 
           <Route component={NotFound} />
         </Switch>
+        <UserModal />
         <CreatePostModal />
       </Suspense>
     </Router>

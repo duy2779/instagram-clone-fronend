@@ -3,7 +3,6 @@ import Header from "../components/Header"
 import Timeline from "../components/timeline"
 import Sidebar from "../components/sidebar/Sidebar"
 import { useDispatch, useSelector } from 'react-redux'
-import UserModal from '../components/UserModal'
 
 import { userSelector, getUserRecommended, clearStatus } from '../features/userSlice'
 
@@ -31,7 +30,6 @@ const DashBoard = () => {
                     <Sidebar />
                 </div>
             </div>
-            <UserModal />
         </>
     )
 }

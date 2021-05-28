@@ -27,7 +27,7 @@ const UserSuggestion = ({ userRecommend }) => {
         <div className="grid grid-cols-7 mb-3 items-center">
             {
                 avatar_pic ? (
-                    <Link to="/profile" className="col-span-1">
+                    <Link to={`/profile/${username}`} className="col-span-1">
                         <img src={backendURL + avatar_pic} alt="avatar_picture" className="w-9 h-9 rounded-full" />
                     </Link>
                 ) : (
@@ -38,7 +38,7 @@ const UserSuggestion = ({ userRecommend }) => {
             <div className="col-span-4 flex flex-col">
                 {
                     username ? (
-                        <Link to="/profile">
+                        <Link to={`/profile/${username}`}>
                             <p className="font-semibold text-sm">{username}</p>
                         </Link>
                     ) : (

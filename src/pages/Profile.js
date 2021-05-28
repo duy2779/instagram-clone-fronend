@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom'
 
 import Page from './Page'
 import UserProfile from '../components/profile'
-import { getUserByUserName } from '../features/userSlice'
+import { getUserByUserName, clearUserFocus } from '../features/userSlice'
 import * as ROUTES from '../constants/Routes'
 
 const Profile = ({ props }) => {
@@ -17,7 +17,10 @@ const Profile = ({ props }) => {
     useEffect(() => {
         dispatch(getUserByUserName({ username }))
         // eslint-disable-next-line
-    }, [username])
+        return function cleanup() {
+            dispatch(clearUserFocus())
+        }
+    }, [username, dispatch])
 
     useEffect(() => {
         if (!userFocus) {

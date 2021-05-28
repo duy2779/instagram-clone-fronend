@@ -1,12 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { backendURL } from '../../constants/BackendConfig'
+import ToggleFollow from '../../common/ToggleFollow'
+import { followUser } from '../../features/userSlice'
 
 const Header = ({ user }) => {
-    const { currentUser } = useSelector(state => state.user)
+    const dispatch = useDispatch()
+    const [isCurrentUser, setIsCurrentUser] = useState(false)
+    const { currentUser, unFollowUserModal } = useSelector(state => state.user)
     const [followers, setFollowers] = useState(user.followers.length)
     const [isFollow, setIsFollow] = useState(() => user.followers.includes(currentUser.id))
+
+    useEffect(() => {
+        if (user.username === currentUser.username) {
+            setIsCurrentUser(true)
+        }
+        // eslint-disable-next-line
+    }, [user.username])
+
+    useEffect(() => {
+        if (unFollowUserModal.unfollow === true && unFollowUserModal.username === user.username) {
+            setIsFollow(false)
+            setFollowers(followers - 1)
+        }
+        // eslint-disable-next-line
+    }, [unFollowUserModal.username, unFollowUserModal.unfollow, user.username])
+
+    const followOnClick = () => {
+        dispatch(followUser(user.username))
+        setIsFollow(!isFollow)
+        setFollowers(followers + 1)
+    }
+
 
     return (
         <div className="mx-auto max-w-screen-lg grid grid-cols-3">
@@ -17,11 +43,9 @@ const Header = ({ user }) => {
                 <div className="mb-5 flex">
                     <p className="text-3xl font-light mr-5">{user.username}</p>
                     {
-                        isFollow ? (
-                            <button className="border border-gray-primary focus:outline-none rounded px-8 h-8 text-sm font-semibold">Unfollow</button>
-                        ) : (
-                            <button className="border rounded px-8 h-8 text-sm focus:outline-none font-semibold text-white bg-blue-medium">Follow</button>
-                        )
+                        isCurrentUser ? (
+                            <button className="border border-gray-primary focus:outline-none rounded px-8 h-8 text-sm font-semibold">Edit Profile</button>
+                        ) : <ToggleFollow isFollow={isFollow} followOnClick={followOnClick} user={user} />
                     }
 
                 </div>
