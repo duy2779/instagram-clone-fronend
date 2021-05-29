@@ -4,7 +4,8 @@ import Timeline from "../components/timeline"
 import Sidebar from "../components/sidebar/Sidebar"
 import { useDispatch, useSelector } from 'react-redux'
 
-import { userSelector, getUserRecommended, clearStatus } from '../features/userSlice'
+import { userSelector, clearStatus } from '../features/userSlice'
+import { getUserRecommended } from '../features/usersRecommendedSlice'
 
 const DashBoard = () => {
     const dispatch = useDispatch()

@@ -1,10 +1,16 @@
+import { useEffect } from 'react'
 import UserSuggestion from './UserSuggestion'
-import { userSelector } from '../../features/userSlice'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { resetState } from '../../features/usersRecommendedSlice'
 
 const Suggestions = () => {
 
-    const { usersRecommended } = useSelector(userSelector)
+    const { usersRecommended } = useSelector(state => state.usersRecommended)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        return () => dispatch(resetState())
+    }, [dispatch])
 
     return (
         <div>

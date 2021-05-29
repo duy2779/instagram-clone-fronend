@@ -4,6 +4,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        black: {
+          light: '#262626',
+          faded: '#00000059'
+        },
         blue: {
           medium: '#0095F6',
           fb: '#3B5487',
@@ -31,7 +35,8 @@ module.exports = {
   variants: {
     extend: {
       opacity: ['active'],
-      textAlign: ['focus']
+      textAlign: ['focus'],
+      display: ['group-hover']
     },
   },
   plugins: [],
