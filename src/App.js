@@ -8,6 +8,7 @@ import CreatePostModal from './components/CreatePostModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from './features/userSlice'
 import UserModal from './components/UserModal'
+import PostModal from './components/profile/PostModal'
 
 const Login = lazy(() => import('./pages/Login'));
 const SignUp = lazy(() => import('./pages/SignUp'));
@@ -45,6 +46,7 @@ function App() {
         </Switch>
         <UserModal />
         <CreatePostModal />
+        <PostModal />
       </Suspense>
     </Router>
   );

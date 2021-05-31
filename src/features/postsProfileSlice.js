@@ -3,6 +3,10 @@ import { get, getApiURL } from './config'
 
 const initialState = {
     posts: [],
+    postModal: {
+        show: false,
+        post: {}
+    },
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -40,7 +44,15 @@ const postsProfileSlice = createSlice({
     name: 'postsProfile',
     initialState,
     reducers: {
-        clearPostsProfile: state => initialState
+        clearPostsProfile: state => initialState,
+        showPostModal: (state, { payload }) => {
+            state.postModal.post = payload.photo
+            state.postModal.show = true
+        },
+        hidePostModal: (state) => {
+            state.postModal.post = {}
+            state.postModal.show = false
+        }
     },
     extraReducers: {
         [getPostsProfile.pending]: (state) => {
@@ -61,6 +73,8 @@ const postsProfileSlice = createSlice({
 });
 
 export const {
-    clearPostsProfile
+    clearPostsProfile,
+    showPostModal,
+    hidePostModal,
 } = postsProfileSlice.actions
 export default postsProfileSlice.reducer

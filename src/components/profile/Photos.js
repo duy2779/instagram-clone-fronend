@@ -1,7 +1,11 @@
 import { backendURL } from '../../constants/BackendConfig'
 import Skeleton from 'react-loading-skeleton';
+import { showPostModal } from '../../features/postsProfileSlice'
+import { useDispatch } from 'react-redux'
 
 const Photos = ({ photos, postsCount }) => {
+    const dispatch = useDispatch()
+
     return (
         <div className="border-t border-gray-primary mt-12">
             <div className="grid grid-cols-3 mt-4 mb-12 ">
@@ -13,7 +17,7 @@ const Photos = ({ photos, postsCount }) => {
                                 <div key={photo.id} className="relative group w-72 h-80 mb-12">
                                     <img src={backendURL + photo.image} alt={photo.caption} className="w-full h-full object-cover" />
 
-                                    <div className="absolute bottom-0 left-0 z-10 w-full justify-center items-center h-full bg-black-faded group-hover:flex hidden">
+                                    <div onClick={() => dispatch(showPostModal({ photo }))} className="absolute bottom-0 left-0 z-10 w-full justify-center items-center h-full bg-black-faded group-hover:flex hidden">
                                         <p className="flex items-center text-white font-bold mr-5">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"

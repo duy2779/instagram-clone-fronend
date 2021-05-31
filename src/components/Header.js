@@ -25,7 +25,7 @@ const Header = () => {
                     <div className="text-gray-700 text-center flex item-center align-items cursor-pointer">
                         <h1 className="flex justify-center w-full">
                             <Link to={ROUTES.DASHBOARD} aria-label="Instagram logo">
-                                <img src="/images/logo.png" alt="instagram" className="w-6/12 mt-4" />
+                                <img src="/images/logo.png" alt="instagram" className="w-6/12 mt-4 object-cover" />
                             </Link>
                         </h1>
                     </div>
