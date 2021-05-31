@@ -19,16 +19,17 @@ const CommentInput = ({ setAllComments, allComments, post_id }) => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-12 items-center px-3 py-3 border-t">
-                    <button className="">
+                <div className="flex jutify-between items-center border-t">
+                    <div className="p-3">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                    </button>
+                    </div>
+
                     <input value={commentInput} type="text" placeholder="Add a comment..."
-                        className="col-span-10 focus:outline-none text-sm"
+                        className="flex-grow focus:outline-none text-sm"
                         onChange={({ target }) => setCommentInput(target.value)} />
-                    <button type="submit" className={`font-semibold text-blue-medium focus:outline-none text-sm
+                    <button type="submit" className={`font-semibold text-blue-medium focus:outline-none text-sm p-4
                     ${commentInputInValid && 'opacity-40'}`} disabled={commentInputInValid}>
                         Post
                     </button>
