@@ -1,4 +1,3 @@
-import { getUserByUsername } from '../features/userSlice'
 import { backendURL } from '../constants/BackendConfig'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -6,8 +5,6 @@ import { get, getApiURL } from '../features/config'
 
 const Comment = ({ username, comment }) => {
     const [user, setUser] = useState(null)
-
-    console.log(username)
 
     async function getUser() {
         const response = await get({
@@ -20,6 +17,10 @@ const Comment = ({ username, comment }) => {
 
     useEffect(() => {
         getUser()
+        return () => {
+            setUser(null)
+        }
+        // eslint-disable-next-line
     }, [])
 
     return user ? (

@@ -15,6 +15,7 @@ const Profile = ({ props }) => {
     const { posts } = useSelector(state => state.postsProfile)
     const { username } = useParams()
     const [user, setUser] = useState(null)
+    const [allPosts, setAllPosts] = useState(posts)
 
     useEffect(() => {
         async function fetchData() {
@@ -38,10 +39,14 @@ const Profile = ({ props }) => {
         // eslint-disable-next-line
     }, [userFocus])
 
+    useEffect(() => {
+        setAllPosts(posts)
+    }, [posts])
+
     return user?.username ? (
         <Page>
             <div className="mx-auto max-w-screen-lg">
-                <UserProfile user={user} photos={posts} />
+                <UserProfile user={user} photos={allPosts} />
             </div>
         </Page>
     ) : null
