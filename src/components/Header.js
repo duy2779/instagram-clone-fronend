@@ -3,9 +3,8 @@ import * as ROUTES from '../constants/Routes'
 import { logOut } from "../features/authSlice"
 import { clearUser } from "../features/userSlice"
 import { useDispatch, useSelector } from 'react-redux'
-import { backendURL } from '../constants/BackendConfig'
-import Skeleton from 'react-loading-skeleton'
 import UploadImageButton from './UploadImageButton'
+import ProfileMenuActions from './ProfileMenuActions'
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -39,7 +38,7 @@ const Header = () => {
                             bg-gray-background focus:outline-none focus:text-left"
                     />
 
-                    <div className="flex w-1/5 items-center justify-between">
+                    <div className="flex w-1/6 items-center justify-between">
                         <Link to={ROUTES.DASHBOARD}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -56,21 +55,8 @@ const Header = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
                         </button>
-                        <button className="cursor-pointer focus:outline-none active:opacity-50" onClick={() => logOutOnClick()}>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>
-                        </button>
                         {/* avatar link */}
-                        {
-                            currentUser.avatar_pic ? (
-                                <Link to={`/profile/${currentUser.username}`}>
-                                    <img src={backendURL + currentUser.avatar_pic} alt='profile_avatar' className="w-6 h-6 rounded-full" />
-                                </Link>
-                            ) : (
-                                <Skeleton circle={true} height={24} width={24} />
-                            )
-                        }
+                        <ProfileMenuActions user={currentUser} logOutOnClick={logOutOnClick} />
 
                     </div>
                 </div>
