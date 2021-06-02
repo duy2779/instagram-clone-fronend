@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { backendURL } from '../../constants/BackendConfig'
 import ToggleFollow from '../../common/ToggleFollow'
 import { followUser } from '../../features/userSlice'
+import { Link } from 'react-router-dom'
+import * as ROUTES from '../../constants/Routes'
 
 const Header = ({ user }) => {
     const dispatch = useDispatch()
@@ -44,7 +46,12 @@ const Header = ({ user }) => {
                     <p className="text-3xl font-light mr-5">{user.username}</p>
                     {
                         isCurrentUser ? (
-                            <button className="border border-gray-primary focus:outline-none rounded px-8 h-8 text-sm font-semibold">Edit Profile</button>
+                            <Link to={ROUTES.PROFILE_EDIT}>
+                                <button className="border border-gray-primary focus:outline-none rounded px-8 h-8 text-sm font-semibold">
+                                    Edit Profile
+                            </button>
+                            </Link>
+
                         ) : <ToggleFollow isFollow={isFollow} followOnClick={followOnClick} user={user} />
                     }
 

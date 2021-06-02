@@ -14,6 +14,7 @@ const Login = lazy(() => import('./pages/Login'));
 const SignUp = lazy(() => import('./pages/SignUp'));
 const DashBoard = lazy(() => import('./pages/DashBoard'));
 const Profile = lazy(() => import('./pages/Profile'));
+const ProfileEdit = lazy(() => import('./pages/ProfileEdit'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <PrivateRoute path={ROUTERS.DASHBOARD} exact>
             <DashBoard />
           </PrivateRoute>
+          <Route exact path={ROUTERS.PROFILE_EDIT} component={ProfileEdit} />
           <Route exact path={ROUTERS.PROFILE} component={Profile} />
 
           <IsLoggedIn loggedInPath={ROUTERS.DASHBOARD} path={ROUTERS.LOGIN}>

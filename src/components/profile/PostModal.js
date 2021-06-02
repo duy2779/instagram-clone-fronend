@@ -12,8 +12,8 @@ import { postToggleLike } from '../../features/postSlice'
 import { getPostsProfile } from '../../features/postsProfileSlice'
 
 const imageStyles = {
-    minWidth: '511px',
-    minHeight: '511px',
+    minWidth: '450px',
+    minHeight: '450px',
     maxWidth: '704px',
     maxHeight: '600px',
 }
