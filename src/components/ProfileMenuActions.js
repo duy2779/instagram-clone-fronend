@@ -9,7 +9,9 @@ const ProfileMenuActions = ({ user, logOutOnClick }) => {
     return (
         user.avatar_pic ? (
             <div className="relative">
-                <button className="relative mt-1" onClick={() => setMenuShow(!menuShow)}>
+                <button
+                    className={`relative mt-1 focus:outline-none p-0.5 border rounded-full ${menuShow ? 'border-black-base' : 'border-white'}`}
+                    onClick={() => setMenuShow(!menuShow)}>
                     <img src={backendURL + user.avatar_pic} alt='profile_avatar' className="w-6 h-6 rounded-full" />
                 </button>
 
