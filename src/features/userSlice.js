@@ -131,6 +131,35 @@ export const updateAvatar = createAsyncThunk(
     }
 )
 
+export const updateInfo = createAsyncThunk(
+    'user/updateInfo',
+    async (user, thunkAPI) => {
+        try {
+            console.log(user)
+            const response = await patch({
+                url: getApiURL(`accounts/update-info`),
+                payload: user
+            })
+
+            let data = response.data
+            if (response.status === 200) {
+                return data
+            }
+            else {
+                return thunkAPI.rejectWithValue(data)
+            }
+        } catch (error) {
+            if (!error.response) {
+                console.log(error)
+                return thunkAPI.rejectWithValue("Web server is down.")
+            }
+            console.log(error.response.data)
+            const errorMessage = error.response.data
+            return thunkAPI.rejectWithValue(errorMessage)
+        }
+    }
+)
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -222,6 +251,20 @@ const userSlice = createSlice({
             state.isSuccess = true
         },
         [updateAvatar.rejected]: (state, { payload }) => {
+            state.isFetching = false
+            state.isError = true
+            state.errorMessage = payload
+        },
+        //update info
+        [updateInfo.pending]: (state) => {
+            state.isFetching = true
+        },
+        [updateInfo.fulfilled]: (state, { payload }) => {
+            state.currentUser = payload.user
+            state.isFetching = false
+            state.isSuccess = true
+        },
+        [updateInfo.rejected]: (state, { payload }) => {
             state.isFetching = false
             state.isError = true
             state.errorMessage = payload

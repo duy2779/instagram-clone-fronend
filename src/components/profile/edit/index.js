@@ -3,16 +3,17 @@ import InfoForm from './InfoForm'
 import { useSelector } from 'react-redux'
 
 const ProfileEditForm = () => {
-    const { currentUser } = useSelector(state => state.user)
+    const { currentUser, isFetching } = useSelector(state => state.user)
 
-    return (
+    return !isFetching ? (
+
         <div className="max-w-screen-lg mx-auto bg-white flex justify-center p-3 border">
             <div className="w-11/12 flex flex-col items-center">
                 <AvatarUpdate user={currentUser} />
                 <InfoForm user={currentUser} />
             </div>
         </div>
-    )
+    ) : null
 }
 
 export default ProfileEditForm
