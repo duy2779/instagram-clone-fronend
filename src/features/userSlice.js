@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { get, post, getApiURL } from './config'
+import { get, post, getApiURL, patch } from './config'
 
 const initialState = {
     currentUser: {},
@@ -100,6 +100,37 @@ export const followUser = createAsyncThunk(
     }
 )
 
+export const updateAvatar = createAsyncThunk(
+    'user/updateAvatar',
+    async ({ avatar }, thunkAPI) => {
+        try {
+            let formData = new FormData();
+            formData.append('avatar', avatar);
+
+            const response = await patch({
+                url: getApiURL(`accounts/update-avatar`),
+                payload: formData
+            })
+
+            let data = response.data
+            if (response.status === 200) {
+                return data
+            }
+            else {
+                return thunkAPI.rejectWithValue(data)
+            }
+        } catch (error) {
+            if (!error.response) {
+                console.log(error)
+                return thunkAPI.rejectWithValue("Web server is down.")
+            }
+            console.log(error.response.data)
+            const errorMessage = error.response.data
+            return thunkAPI.rejectWithValue(errorMessage)
+        }
+    }
+)
+
 const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -177,6 +208,20 @@ const userSlice = createSlice({
             state.isSuccess = true
         },
         [followUser.rejected]: (state, { payload }) => {
+            state.isFetching = false
+            state.isError = true
+            state.errorMessage = payload
+        },
+        //update avatar
+        [updateAvatar.pending]: (state) => {
+            state.isFetching = true
+        },
+        [updateAvatar.fulfilled]: (state, { payload }) => {
+            state.currentUser.avatar_pic = payload.user.avatar_pic
+            state.isFetching = false
+            state.isSuccess = true
+        },
+        [updateAvatar.rejected]: (state, { payload }) => {
             state.isFetching = false
             state.isError = true
             state.errorMessage = payload
