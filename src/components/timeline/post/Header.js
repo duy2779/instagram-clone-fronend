@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
 import { backendURL } from '../../../constants/BackendConfig'
+import { useDispatch } from 'react-redux'
+import { showPostActionsModal } from '../../../features/postsProfileSlice'
 
-const Header = ({ user }) => {
+const Header = ({ user, post }) => {
+    const dispatch = useDispatch()
     return (
         <div className="flex justify-between items-center px-3 py-2">
             <div className="flex items-center">
@@ -16,7 +19,7 @@ const Header = ({ user }) => {
                     <p className="col-span-8 text-sm font-semibold">{user.username}</p>
                 </Link>
             </div>
-            <button className="focus:outline-none">
+            <button className="focus:outline-none" onClick={() => dispatch(showPostActionsModal({ post }))}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
                 </svg>

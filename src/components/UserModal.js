@@ -1,8 +1,8 @@
-import Modal from '../common/Modal'
+import ModalPrioritize from '../common/ModalPrioritize'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideUnFollowUserModal, userSelector, unfollowModalTrue } from '../features/userSlice'
 import { backendURL } from '../constants/BackendConfig'
-import { followUser } from '../features/userSlice'
+import { followUser, getUser } from '../features/userSlice'
 
 const UserModal = () => {
     const dispatch = useDispatch()
@@ -12,12 +12,13 @@ const UserModal = () => {
 
     const unFollowOnClick = async () => {
         await dispatch(followUser(username))
+        await dispatch(getUser())
         dispatch(unfollowModalTrue())
         dispatch(hideUnFollowUserModal())
     }
 
     return (
-        <Modal show={unFollowUserModal.show} hide={hideUnFollowUserModal}>
+        <ModalPrioritize show={unFollowUserModal.show} hide={hideUnFollowUserModal}>
             <div className="relative bg-white rounded-2xl mb-20 text-sm">
                 <div className="flex flex-col justify-center items-center px-36 pt-10 pb-6 border-b">
                     <img src={backendURL + avatar} alt="instagram" className="w-24 h-24 rounded-full mb-5" />
@@ -36,7 +37,7 @@ const UserModal = () => {
                     </button>
                 </div>
             </div>
-        </Modal>
+        </ModalPrioritize>
     )
 }
 

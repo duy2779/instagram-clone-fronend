@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { backendURL } from '../../constants/BackendConfig'
 import ToggleFollow from '../../common/ToggleFollow'
-import { followUser } from '../../features/userSlice'
+import { followUser, getUser } from '../../features/userSlice'
 import { Link } from 'react-router-dom'
 import * as ROUTES from '../../constants/Routes'
 
@@ -29,8 +29,9 @@ const Header = ({ user }) => {
         // eslint-disable-next-line
     }, [unFollowUserModal.username, unFollowUserModal.unfollow, user.username])
 
-    const followOnClick = () => {
-        dispatch(followUser(user.username))
+    const followOnClick = async () => {
+        await dispatch(followUser(user.username))
+        await dispatch(getUser())
         setIsFollow(!isFollow)
         setFollowers(followers + 1)
     }

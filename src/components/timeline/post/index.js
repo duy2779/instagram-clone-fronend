@@ -12,7 +12,7 @@ const Post = ({ post }) => {
     return (
         <div className="flex flex-col bg-white mb-10 border">
             {/* header */}
-            <Header user={user} />
+            <Header user={user} post={post} />
             <img src={backendURL + image} alt="img" />
             {/* middle */}
             <PostInfo

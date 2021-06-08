@@ -6,8 +6,11 @@ import PrivateRoute from './helpers/PrivateRoute'
 import IsLoggedIn from './helpers/isLoggedIn'
 import CreatePostModal from './components/CreatePostModal'
 import { useDispatch, useSelector } from 'react-redux'
+
 import { getUser } from './features/userSlice'
 import UserModal from './components/UserModal'
+import DeletePostConfirm from './components/DeletePostConfirm'
+import PostActionsModal from './components/PostActionsModal'
 import PostModal from './components/profile/PostModal'
 
 const Login = lazy(() => import('./pages/Login'));
@@ -47,6 +50,8 @@ function App() {
           <Route component={NotFound} />
         </Switch>
         <UserModal />
+        <DeletePostConfirm />
+        <PostActionsModal />
         <CreatePostModal />
         <PostModal />
       </Suspense>

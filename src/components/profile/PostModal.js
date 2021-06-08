@@ -52,7 +52,7 @@ function PostModal() {
                 </div>
                 {/* post info */}
                 <div className="bg-white w-80 flex flex-col">
-                    <Header user={post.user} />
+                    <Header user={post.user} post={post} />
                     <div className="flex-grow p-3 border-t">
                         <Caption user={userFocus} caption={post.caption} created={post.created} />
                         {
