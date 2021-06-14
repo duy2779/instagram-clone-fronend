@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { postToggleLike } from '../../../features/postSlice'
 import Comments from './Comments'
 
-const PostInfo = ({ username, likes_count, caption, created, users_like, postID, comments }) => {
+const PostInfo = ({ username, likes_count, caption, created, users_like, postID, comments, handleFocus }) => {
     const distanceTime = distanceDate(created)
 
     const dispatch = useDispatch()
@@ -23,7 +23,7 @@ const PostInfo = ({ username, likes_count, caption, created, users_like, postID,
     return (
         <div className="px-3 py-2">
             {/* tool like, comment*/}
-            <PostTools postID={postID} users_like={users_like} likeOnClick={likeOnClick} toggleLike={toggleLike} />
+            <PostTools postID={postID} users_like={users_like} likeOnClick={likeOnClick} toggleLike={toggleLike} handleFocus={handleFocus} />
             <p className="text-sm font-semibold mt-2 ml-1">{totalLikes} likes</p>
             <p className="text-sm ml-1 mt-2">
                 <span className="font-semibold">{username}</span>

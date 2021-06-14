@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Modal from '../../common/Modal'
 import { hidePostModal } from '../../features/postsProfileSlice'
 import { useSelector, useDispatch } from 'react-redux'
@@ -27,6 +27,9 @@ function PostModal() {
     const [toggleLike, setToggleLike] = useState(false)
     const [totalLikes, setTotalLikes] = useState(0)
 
+    const commentInputRef = useRef(null)
+    const handleFocus = () => commentInputRef.current.focus()
+
     useEffect(() => {
         if (post.caption) {
             setToggleLike(post.users_like.includes(currentUser.id))
@@ -46,14 +49,14 @@ function PostModal() {
 
     return post ? (
         <Modal show={postModal.show} hide={hidePostModal}>
-            <div className="max-w-screen-lg mx-auto flex">
+            <div className="max-w-screen-lg mx-auto flex" style={{ maxHeight: '600px' }}>
                 <div className="bg-black-base">
                     <img src={backendURL + post.image} alt={post.caption} className="object-contain" style={imageStyles} />
                 </div>
                 {/* post info */}
                 <div className="bg-white w-80 flex flex-col">
                     <Header user={post.user} post={post} />
-                    <div className="flex-grow p-3 border-t">
+                    <div className="flex-grow p-3 border-t overflow-y-auto comments">
                         <Caption user={userFocus} caption={post.caption} created={post.created} />
                         {
                             allComments && (
@@ -66,10 +69,10 @@ function PostModal() {
                         }
                     </div>
                     <div className="p-3 border-t">
-                        <PostTools postID={post.id} users_like={post.users_like} likeOnClick={likeOnClick} toggleLike={toggleLike} />
+                        <PostTools postID={post.id} users_like={post.users_like} likeOnClick={likeOnClick} toggleLike={toggleLike} handleFocus={handleFocus} />
                         <p className="text-sm font-semibold mt-2 ml-1">{totalLikes} likes</p>
                     </div>
-                    <CommentInput allComments={allComments} setAllComments={setAllComments} post_id={post.id} />
+                    <CommentInput allComments={allComments} setAllComments={setAllComments} post_id={post.id} commentInputRef={commentInputRef} />
                 </div>
             </div>
         </Modal>

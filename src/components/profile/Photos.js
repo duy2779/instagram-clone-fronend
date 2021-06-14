@@ -8,16 +8,18 @@ const Photos = ({ photos, postsCount }) => {
 
     return (
         <div className="border-t border-gray-primary mt-12">
-            <div className="grid grid-cols-3 mt-4 mb-12 ">
+            <div className="grid grid-cols-3 gap-8 mt-4 mb-12 ">
                 {
                     !photos
                         ? new Array(postsCount).fill(0).map((_, i) => <Skeleton key={i} width={288} height={288} />)
                         : postsCount > 0
                             ? photos.map((photo) => (
-                                <div key={photo.id} className="relative group w-72 h-80 mb-12">
+                                <div key={photo.id} className="relative group w-80 h-80">
                                     <img src={backendURL + photo.image} alt={photo.caption} className="w-full h-full object-cover" />
 
-                                    <div onClick={() => dispatch(showPostModal({ photo }))} className="absolute bottom-0 left-0 z-10 w-full justify-center items-center h-full bg-black-faded group-hover:flex hidden">
+                                    <div
+                                        onClick={() => dispatch(showPostModal({ photo }))}
+                                        className="absolute bottom-0 left-0 z-10 w-full justify-center items-center h-full bg-black-faded group-hover:flex hidden">
                                         <p className="flex items-center text-white font-bold mr-5">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"

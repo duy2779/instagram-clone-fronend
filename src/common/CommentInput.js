@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { addComment } from '../features/postSlice'
 
-const CommentInput = ({ setAllComments, allComments, post_id }) => {
+const CommentInput = ({ setAllComments, allComments, post_id, commentInputRef }) => {
     const dispatch = useDispatch()
 
     const [commentInput, setCommentInput] = useState('')
@@ -28,7 +28,8 @@ const CommentInput = ({ setAllComments, allComments, post_id }) => {
 
                     <input value={commentInput} type="text" placeholder="Add a comment..."
                         className="flex-grow focus:outline-none text-sm"
-                        onChange={({ target }) => setCommentInput(target.value)} />
+                        onChange={({ target }) => setCommentInput(target.value)}
+                        ref={commentInputRef} />
                     <button type="submit" className={`font-semibold text-blue-medium focus:outline-none text-sm p-4
                     ${commentInputInValid && 'opacity-40'}`} disabled={commentInputInValid}>
                         Post

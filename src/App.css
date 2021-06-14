@@ -1,3 +1,7 @@
 body{
     background-color: #FAFAFA;
 }
+
+.comments::-webkit-scrollbar{
+    display: none
+}
