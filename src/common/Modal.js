@@ -2,13 +2,18 @@ import React, { useRef } from 'react'
 import ReactDom from 'react-dom'
 import { useDispatch } from 'react-redux'
 
-const Modal = ({ show, children, hide }) => {
+const Modal = ({ show, children, hide, hideByState }) => {
     const modalRef = useRef();
     const dispatch = useDispatch()
 
     const closeModal = e => {
         if (modalRef.current === e.target) {
-            dispatch(hide())
+            if (hide) {
+                dispatch(hide())
+            }
+            if (hideByState) {
+                hideByState(false)
+            }
         }
     };
 
@@ -16,7 +21,7 @@ const Modal = ({ show, children, hide }) => {
         show ? ReactDom.createPortal(
             <>
                 <div
-                    className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-30 outline-none focus:outline-none"
+                    className="justify-center items-center flex fixed inset-0 z-30 outline-none focus:outline-none"
                     onClick={closeModal} ref={modalRef}
                 >
                     {children}

@@ -6,6 +6,7 @@ import ToggleFollow from '../../common/ToggleFollow'
 import { followUser, getUser } from '../../features/userSlice'
 import { Link } from 'react-router-dom'
 import * as ROUTES from '../../constants/Routes'
+import FollowersModal from './FollowersModal'
 
 const Header = ({ user }) => {
     const dispatch = useDispatch()
@@ -13,6 +14,8 @@ const Header = ({ user }) => {
     const { currentUser, unFollowUserModal } = useSelector(state => state.user)
     const [followers, setFollowers] = useState(user.followers.length)
     const [isFollow, setIsFollow] = useState(() => user.followers.includes(currentUser.id))
+
+    const [isFollowersModalShow, setIsFollowersModalShow] = useState(false)
 
     useEffect(() => {
         if (user.username === currentUser.username) {
@@ -66,14 +69,14 @@ const Header = ({ user }) => {
                             user.posts_count > 1 ? 'posts' : 'post'
                         }
                     </p>
-                    <p className="mr-5">
+                    <p className="mr-5 cursor-pointer active:opacity-50" onClick={() => setIsFollowersModalShow(true)}>
                         <span className="font-semibold">
                             {`${followers} `}
                         </span>
                             followers
                     </p>
                     <p className="mr-5">
-                        <span className="font-semibold">
+                        <span className="font-semibold active:opacity-50">
                             {`${user.following.length} `}
                         </span>
                             following
@@ -81,6 +84,15 @@ const Header = ({ user }) => {
                 </div>
                 <div className="mb-5 font-semibold">{user.full_name}</div>
             </div>
+            {
+                isFollowersModalShow &&
+                <FollowersModal
+                    username={user.username}
+                    isShow={isFollowersModalShow}
+                    setIsShow={setIsFollowersModalShow}
+                />
+            }
+
         </div>
     )
 }
