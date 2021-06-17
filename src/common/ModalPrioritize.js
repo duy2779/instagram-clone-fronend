@@ -2,13 +2,18 @@ import React, { useRef } from 'react'
 import ReactDom from 'react-dom'
 import { useDispatch } from 'react-redux'
 
-const ModalPrioritize = ({ show, children, hide }) => {
+const ModalPrioritize = ({ show, children, hide, hideByState }) => {
     const modalRef = useRef();
     const dispatch = useDispatch()
 
     const closeModal = e => {
         if (modalRef.current === e.target) {
-            dispatch(hide())
+            if (hide) {
+                dispatch(hide())
+            }
+            if (hideByState) {
+                hideByState(false)
+            }
         }
     };
 

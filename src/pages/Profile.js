@@ -37,7 +37,7 @@ const Profile = ({ props }) => {
         }
         setUser(userFocus)
         // eslint-disable-next-line
-    }, [userFocus])
+    }, [userFocus, userFocus.followers])
 
     useEffect(() => {
         setAllPosts(posts)

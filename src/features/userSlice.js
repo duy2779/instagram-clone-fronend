@@ -10,6 +10,12 @@ const initialState = {
         avatar: '',
         unfollow: false
     },
+    removeFollowerModal: {
+        show: false,
+        username: '',
+        avatar: '',
+        removed: false
+    },
     isFetching: false,
     isSuccess: false,
     isError: false,

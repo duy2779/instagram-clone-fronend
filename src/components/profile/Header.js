@@ -53,7 +53,7 @@ const Header = ({ user }) => {
                             <Link to={ROUTES.PROFILE_EDIT}>
                                 <button className="border border-gray-primary focus:outline-none rounded px-8 h-8 text-sm font-semibold">
                                     Edit Profile
-                            </button>
+                                </button>
                             </Link>
 
                         ) : <ToggleFollow isFollow={isFollow} followOnClick={followOnClick} user={user} />
@@ -73,13 +73,13 @@ const Header = ({ user }) => {
                         <span className="font-semibold">
                             {`${followers} `}
                         </span>
-                            followers
+                        followers
                     </p>
                     <p className="mr-5">
                         <span className="font-semibold active:opacity-50">
                             {`${user.following.length} `}
                         </span>
-                            following
+                        following
                     </p>
                 </div>
                 <div className="mb-5 font-semibold">{user.full_name}</div>
