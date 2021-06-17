@@ -23,6 +23,9 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 function App() {
   const dispatch = useDispatch()
   const { isAuthenticated } = useSelector(state => state.auth)
+  const { unFollowUserModal } = useSelector(state => state.user)
+  const { deletePostConfirm, postActionsModal, postModal } = useSelector(state => state.postsProfile)
+  const { createPostModal } = useSelector(state => state.post)
   useEffect(() => {
     if (isAuthenticated || localStorage.getItem('token')) {
       dispatch(getUser())
@@ -49,11 +52,21 @@ function App() {
 
           <Route component={NotFound} />
         </Switch>
-        <UserModal />
-        <DeletePostConfirm />
-        <PostActionsModal />
-        <CreatePostModal />
-        <PostModal />
+        {
+          unFollowUserModal.show && <UserModal />
+        }
+        {
+          deletePostConfirm.show && <DeletePostConfirm />
+        }
+        {
+          postActionsModal.show && <PostActionsModal />
+        }
+        {
+          postModal.show && <PostModal />
+        }
+        {
+          createPostModal.show && <CreatePostModal />
+        }
       </Suspense>
     </Router>
   );

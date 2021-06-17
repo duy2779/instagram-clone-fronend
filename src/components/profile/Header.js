@@ -32,6 +32,10 @@ const Header = ({ user }) => {
         // eslint-disable-next-line
     }, [unFollowUserModal.username, unFollowUserModal.unfollow, user.username])
 
+    useEffect(() => {
+        setFollowers(user.followers.length)
+    }, [user])
+
     const followOnClick = async () => {
         await dispatch(followUser(user.username))
         await dispatch(getUser())
@@ -39,6 +43,11 @@ const Header = ({ user }) => {
         setFollowers(followers + 1)
     }
 
+    const followersOnclick = () => {
+        if (followers > 0) {
+            setIsFollowersModalShow(true)
+        }
+    }
 
     return (
         <div className="mx-auto max-w-screen-lg grid grid-cols-3">
@@ -69,7 +78,7 @@ const Header = ({ user }) => {
                             user.posts_count > 1 ? 'posts' : 'post'
                         }
                     </p>
-                    <p className="mr-5 cursor-pointer active:opacity-50" onClick={() => setIsFollowersModalShow(true)}>
+                    <p className={`mr-5 ${followers > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followersOnclick}>
                         <span className="font-semibold">
                             {`${followers} `}
                         </span>

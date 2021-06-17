@@ -1,20 +1,33 @@
 import { useState } from 'react'
 import Modal from '../common/Modal'
-import { hideCreatePostModal, getPosts } from '../features/postSlice'
+import { hideCreatePostModal, getPosts, createPost } from '../features/postSlice'
+import { getUserByUserName } from '../features/userSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { backendURL } from '../constants/BackendConfig'
-import { createPost } from '../features/postSlice'
+import { getPostsProfile } from '../features/postsProfileSlice'
+import { useLocation } from "react-router-dom";
+import { matchPath } from "react-router"
+import * as ROUTES from '../constants/Routes'
 
 function CreatePostModal() {
     const dispatch = useDispatch()
+    const location = useLocation()
     const [caption, setCaption] = useState('')
     const { createPostModal } = useSelector(state => state.post)
-    const { currentUser } = useSelector(state => state.user)
+    const { currentUser, userFocus } = useSelector(state => state.user)
 
 
     const handleCreatePost = async () => {
         await dispatch(createPost({ caption, image: createPostModal.image }))
-        await dispatch(getPosts({ nextURL: null }))
+
+        if (location.pathname === ROUTES.DASHBOARD) {
+            await dispatch(getPosts({ nextURL: null }))
+        }
+
+        if (!!matchPath(location.pathname, ROUTES.PROFILE)) {
+            await dispatch(getUserByUserName({ username: userFocus.username }))
+            await dispatch(getPostsProfile({ username: userFocus.username }))
+        }
         dispatch(hideCreatePostModal())
     }
 
