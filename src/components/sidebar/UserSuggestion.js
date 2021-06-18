@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { backendURL } from '../../constants/BackendConfig'
 import Skeleton from 'react-loading-skeleton'
 import { useDispatch, useSelector } from 'react-redux'
-import { followUser, showUnFollowUserModal } from '../../features/userSlice'
+import { followUser, showUnFollowUserModal, getUser } from '../../features/userSlice'
 
 const UserSuggestion = ({ userRecommend }) => {
     const dispatch = useDispatch()
@@ -12,8 +12,9 @@ const UserSuggestion = ({ userRecommend }) => {
 
     const [following, setFollowing] = useState(() => userRecommend.followers.includes(currentUser.id));
 
-    const followOnClick = () => {
-        dispatch(followUser(username))
+    const followOnClick = async () => {
+        await dispatch(followUser(username))
+        await dispatch(getUser())
         setFollowing(!following)
     }
 

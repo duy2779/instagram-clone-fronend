@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton';
 import { get, getApiURL } from '../../features/config'
-import FollowerLine from './FollowerLine'
+import FollowingLine from './FollowingLine'
 import { useSelector } from 'react-redux'
 
-const FollowersModal = ({ username, isShow, setIsShow }) => {
+const FollowingModal = ({ username, isShow, setIsShow }) => {
     const [isLoading, setIsLoading] = useState(true)
-    const [followers, setFollowers] = useState([])
+    const [following, setFollowing] = useState([])
 
     const { currentUser, userFocus } = useSelector(state => state.user)
     const isCurrentUserPage = userFocus.username === currentUser.username
@@ -18,10 +18,10 @@ const FollowersModal = ({ username, isShow, setIsShow }) => {
             try {
                 setIsLoading(true)
                 const response = await get({
-                    url: getApiURL(`accounts/get-followers/${username}`)
+                    url: getApiURL(`accounts/get-following/${username}`)
                 })
                 if (response.status === 200) {
-                    setFollowers(response.data)
+                    setFollowing(response.data)
                     setIsLoading(false)
                 }
             } catch (error) {
@@ -38,7 +38,7 @@ const FollowersModal = ({ username, isShow, setIsShow }) => {
         <Modal show={isShow} hideByState={setIsShow}>
             <div className="bg-white w-96 h-96 rounded-lg flex flex-col">
                 {/* header */}
-                <p className="text-center font-semibold py-2 border-b">Followers</p>
+                <p className="text-center font-semibold py-2 border-b">Following</p>
                 {/* content */}
                 <div className="overflow-y-auto">
                     <div className="px-4 mt-2">
@@ -53,7 +53,7 @@ const FollowersModal = ({ username, isShow, setIsShow }) => {
                                         </div>
                                     </div>
                                 ))
-                            ) : followers.map((follower, index) => <FollowerLine
+                            ) : following.map((follower, index) => <FollowingLine
                                 key={index} user={follower} isCurrentUserPage={isCurrentUserPage} />)
                         }
                     </div>
@@ -63,9 +63,9 @@ const FollowersModal = ({ username, isShow, setIsShow }) => {
     )
 }
 
-export default FollowersModal
+export default FollowingModal
 
-FollowersModal.propTypes = {
+FollowingModal.propTypes = {
     username: PropTypes.string.isRequired,
     isShow: PropTypes.bool.isRequired,
     setIsShow: PropTypes.func.isRequired,

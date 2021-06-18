@@ -7,6 +7,7 @@ import { followUser, getUser } from '../../features/userSlice'
 import { Link } from 'react-router-dom'
 import * as ROUTES from '../../constants/Routes'
 import FollowersModal from './FollowersModal'
+import FollowingModal from './FollowingModal'
 
 const Header = ({ user }) => {
     const dispatch = useDispatch()
@@ -16,6 +17,7 @@ const Header = ({ user }) => {
     const [isFollow, setIsFollow] = useState(() => user.followers.includes(currentUser.id))
 
     const [isFollowersModalShow, setIsFollowersModalShow] = useState(false)
+    const [isFollowingModalShow, setIsFollowingModalShow] = useState(false)
 
     useEffect(() => {
         if (user.username === currentUser.username) {
@@ -46,6 +48,12 @@ const Header = ({ user }) => {
     const followersOnclick = () => {
         if (followers > 0) {
             setIsFollowersModalShow(true)
+        }
+    }
+
+    const followingOnClick = () => {
+        if (user.following.length > 0) {
+            setIsFollowingModalShow(true)
         }
     }
 
@@ -84,8 +92,8 @@ const Header = ({ user }) => {
                         </span>
                         followers
                     </p>
-                    <p className="mr-5">
-                        <span className="font-semibold active:opacity-50">
+                    <p className={`mr-5 ${user.following.length > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followingOnClick}>
+                        <span className="font-semibold">
                             {`${user.following.length} `}
                         </span>
                         following
@@ -99,6 +107,14 @@ const Header = ({ user }) => {
                     username={user.username}
                     isShow={isFollowersModalShow}
                     setIsShow={setIsFollowersModalShow}
+                />
+            }
+            {
+                isFollowingModalShow &&
+                <FollowingModal
+                    username={user.username}
+                    isShow={isFollowingModalShow}
+                    setIsShow={setIsFollowingModalShow}
                 />
             }
 

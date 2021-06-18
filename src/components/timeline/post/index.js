@@ -17,7 +17,7 @@ const Post = ({ post }) => {
             {/* header */}
             <Header user={user} post={post} />
             <img src={backendURL + image} alt="img" />
-            {/* middle */}
+            {/* content */}
             <PostInfo
                 postID={post.id}
                 caption={caption}
@@ -27,7 +27,7 @@ const Post = ({ post }) => {
                 username={user.username}
                 comments={allComments}
                 handleFocus={handleFocus} />
-            {/* bottom: comment input */}
+            {/* footer: comment input */}
             <CommentInput allComments={allComments} setAllComments={setAllComments} post_id={post.id} commentInputRef={commentInputRef} />
         </div >
     )
