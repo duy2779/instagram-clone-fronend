@@ -12,6 +12,7 @@ import UserModal from './components/UserModal'
 import DeletePostConfirm from './components/DeletePostConfirm'
 import PostActionsModal from './components/PostActionsModal'
 import PostModal from './components/profile/PostModal'
+import AppMessage from './components/AppMessage';
 
 const Login = lazy(() => import('./pages/Login'));
 const SignUp = lazy(() => import('./pages/SignUp'));
@@ -52,6 +53,7 @@ function App() {
 
           <Route component={NotFound} />
         </Switch>
+        <AppMessage/>
         {
           unFollowUserModal.show && <UserModal />
         }

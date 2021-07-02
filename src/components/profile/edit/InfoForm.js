@@ -2,6 +2,7 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { updateInfo } from '../../../features/userSlice'
+import { showMessage } from '../../../features/appMessageSlice'
 
 const InfoForm = ({ user }) => {
     const dispatch = useDispatch()
@@ -13,9 +14,10 @@ const InfoForm = ({ user }) => {
 
     const isValid = (username !== user.username || fullName !== user.full_name || email !== user.email) && !isBlank
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        dispatch(updateInfo({ username, full_name: fullName, email }))
+        await dispatch(updateInfo({ username, full_name: fullName, email }))
+        dispatch(showMessage({message:"Profile updated"}))
     }
 
     return (

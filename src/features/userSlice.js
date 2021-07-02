@@ -256,17 +256,10 @@ const userSlice = createSlice({
             state.errorMessage = payload
         },
         //update info
-        [updateInfo.pending]: (state) => {
-            state.isFetching = true
-        },
         [updateInfo.fulfilled]: (state, { payload }) => {
             state.currentUser = payload.user
-            state.isFetching = false
-            state.isSuccess = true
         },
         [updateInfo.rejected]: (state, { payload }) => {
-            state.isFetching = false
-            state.isError = true
             state.errorMessage = payload
         },
     }
