@@ -33,7 +33,34 @@ function CreatePostModal() {
 
     return (
         <Modal show={createPostModal.show}>
-            <div className="container max-w-screen-lg mx-auto flex">
+            {/* Mobile ver */}
+            <div className="max-w-screen-sm md:hidden mx-auto flex flex-col bg-white w-full">
+                <div className="flex items-center p-2">
+                    <img src={backendURL + currentUser.avatar_pic} alt={currentUser.username} className="w-10 h-10 rounded-full mr-2" />
+                    <span className="font-semibold text-sm">{currentUser.username}</span>
+                    <button className="ml-auto" onClick={() => dispatch(hideCreatePostModal())}>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <img src={createPostModal.imagePreview} alt="img-review" className="max-w-lg" />
+                <div className="p-2">
+                    <input
+                        onChange={({ target }) => setCaption(target.value)}
+                        type="text" className="w-80 focus:outline-none mb-5"
+                        placeholder="Type your caption here..."
+                    />
+                    <button
+                        onClick={handleCreatePost}
+                        className="w-full h-8 rounded bg-blue-medium font-semibold
+                                    text-sm focus:outline-none text-white">
+                        Post
+                    </button>
+                </div>
+            </div>
+            {/* PC ver */}
+            <div className="hidden container lg:max-w-screen-lg mx-auto md:flex justify-center">
                 <img src={createPostModal.imagePreview} alt="abc" className="max-w-lg" />
                 <div className="bg-white px-3 py-4 flex flex-col justify-between">
                     <div>

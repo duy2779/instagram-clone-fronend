@@ -28,21 +28,21 @@ const PostActionsModal = () => {
                 {
                     isPostByCurrentUser() ? (
                         <p
-                            className="px-56 py-3 border-b text-red-500 font-semibold cursor-pointer"
+                            className="px-20 md:px-56 py-3 border-b text-red-500 font-semibold cursor-pointer"
                             onClick={deleteOnClick}>
                             Delete
                         </p>
                     ) : isPostByFollowingUser() ? (
                         <p
-                            className="px-56 py-3 border-b text-red-500 font-semibold cursor-pointer"
+                            className="px-20 md:px-56 py-3 border-b text-red-500 font-semibold cursor-pointer"
                             onClick={unFollowOnClick}>
                             Unfollow
                         </p>
                     ) : (
-                        <p className="px-56 py-3 border-b text-red-500 font-semibold cursor-pointer">Report</p>
+                        <p className="px-20 md:px-56 py-3 border-b text-red-500 font-semibold cursor-pointer">Report</p>
                     )
                 }
-                <p className="px-56 py-3 cursor-pointer" onClick={() => dispatch(hidePostActionsModal())}>Cancel</p>
+                <p className="px-20 md:px-56 py-3 cursor-pointer" onClick={() => dispatch(hidePostActionsModal())}>Cancel</p>
             </div>
         </ModalPrioritize>
     ) : null

@@ -7,7 +7,7 @@ const Sidebar = () => {
     const { currentUser } = useSelector(userSelector)
 
     return (
-        <div>
+        <div className="hidden lg:block">
             <User
                 username={currentUser.username}
                 fullname={currentUser.full_name}

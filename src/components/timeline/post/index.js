@@ -16,9 +16,10 @@ const Post = ({ post }) => {
         <div className="flex flex-col bg-white mb-10 border">
             {/* header */}
             <Header user={user} post={post} />
-            <img src={backendURL + image} alt="img" />
+            <img src={backendURL + image} alt="img" className="object-cover" style={{maxHeight: '800px'}}/>
             {/* content */}
             <PostInfo
+                post={post}
                 postID={post.id}
                 caption={caption}
                 likes_count={likes_count}

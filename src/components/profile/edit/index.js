@@ -8,7 +8,7 @@ const ProfileEditForm = () => {
     return !isFetching ? (
 
         <div className="max-w-screen-lg mx-auto bg-white flex justify-center p-3 border">
-            <div className="w-11/12 flex flex-col items-center">
+            <div className="lg:w-11/12 flex flex-col lg:items-center">
                 <AvatarUpdate user={currentUser} />
                 <InfoForm user={currentUser} />
             </div>

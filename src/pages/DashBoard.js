@@ -26,7 +26,7 @@ const DashBoard = () => {
         <>
             <div className="bg-gray-background">
                 <Header />
-                <div className="grid grid-cols-3 gap-8 justify-between mx-auto max-w-screen-lg">
+                <div className="grid lg:grid-cols-3 gap-8 lg:justify-between mx-auto max-w-screen-lg justify-center">
                     <Timeline />
                     <Sidebar />
                 </div>

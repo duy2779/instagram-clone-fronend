@@ -18,13 +18,13 @@ const Header = () => {
     }
 
     return (
-        <header className="bg-white h-14 border-b border-gray-primary mb-8 sticky top-0 z-10">
-            <div className="container mx-auto max-w-screen-lg h-full">
-                <div className="flex justify-between h-full">
-                    <div className="text-gray-700 text-center flex item-center align-items cursor-pointer">
+        <header className="bg-white h-14 border-b border-gray-primary md:mb-8 sticky top-0 z-10">
+            <div className="container mx-auto md:max-w-screen-lg h-full">
+                <div className="flex px-4 lg:px-0 justify-between h-full">
+                    <div className="text-gray-700 w-28 text-center flex item-center align-items cursor-pointer">
                         <h1 className="flex justify-center w-full">
                             <Link to={ROUTES.DASHBOARD} aria-label="Instagram logo">
-                                <img src="/images/logo.png" alt="instagram" className="w-6/12 mt-4 object-cover" />
+                                <img src="/images/logo.png" alt="instagram" className="w-11/12 mt-4 object-cover" />
                             </Link>
                         </h1>
                     </div>
@@ -33,12 +33,12 @@ const Header = () => {
                         aria-label="Search"
                         type="text"
                         placeholder="Search"
-                        className="text-sm px-2 text-center text-gray-base w-1/5
+                        className="hidden md:block text-sm px-2 text-center text-gray-base w-1/5
                             h-1/2 my-auto border border-gray-primary rounded
                             bg-gray-background focus:outline-none focus:text-left"
                     />
 
-                    <div className="flex w-1/6 items-center justify-between">
+                    <div className="flex gap-x-5 items-center justify-between">
                         <Link to={ROUTES.DASHBOARD}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />

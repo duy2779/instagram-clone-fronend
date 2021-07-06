@@ -30,8 +30,8 @@ const DeletePostConfirm = () => {
                     <p className="text-xl font-semibold mb-2">Delete Post?</p>
                     <p className="text-gray-secondary text-sm">Are you sure you want to delete this post?</p>
                 </div>
-                <p className="px-48 py-3 border text-red-500 font-semibold cursor-pointer" onClick={deleteOnClick}>Delete</p>
-                <p className="px-48 py-3 cursor-pointer" onClick={() => dispatch(hideDeletePostConfirm())}>Cancel</p>
+                <p className="px-32 md:px-48 py-3 border text-red-500 font-semibold cursor-pointer" onClick={deleteOnClick}>Delete</p>
+                <p className="px-32 md:px-48 py-3 cursor-pointer" onClick={() => dispatch(hideDeletePostConfirm())}>Cancel</p>
             </div>
 
         </ModalPrioritize>

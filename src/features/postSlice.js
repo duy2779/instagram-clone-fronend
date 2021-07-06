@@ -78,7 +78,7 @@ export const addComment = createAsyncThunk(
             })
 
             let data = response.data
-            if (response.status === 200) {
+            if (response.status === 201) {
                 return data
             }
             else {

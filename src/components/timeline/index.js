@@ -50,7 +50,7 @@ const Timeline = () => {
     }
 
     return (
-        <div className="container col-span-2">
+        <div className="max-w-screen-sm lg:container lg:col-span-2">
             {
                 !results ? (
                     <PostSkeleton />

@@ -12,8 +12,6 @@ import { postToggleLike } from '../../features/postSlice'
 import { getPostsProfile } from '../../features/postsProfileSlice'
 
 const imageStyles = {
-    minWidth: '450px',
-    minHeight: '450px',
     maxWidth: '704px',
     maxHeight: '600px',
 }
@@ -49,15 +47,15 @@ function PostModal() {
 
     return post ? (
         <Modal show={postModal.show} hide={hidePostModal}>
-            <div className="max-w-screen-lg mx-auto flex" style={{ maxHeight: '600px' }}>
-                <div className="bg-black-base">
-                    <img src={backendURL + post.image} alt={post.caption} className="object-contain" style={imageStyles} />
+            <div className="max-w-screen-sm lg:max-w-screen-lg mx-auto flex md:h-96 lg:h-auto" style={{maxHeight:'600px'}}>
+                <div className="bg-black-base md:w-1/2 lg:w-auto flex">
+                    <img src={backendURL + post.image} alt={post.caption} className="h-full w-full lg:h-auto lg:w-auto object-contain" style={imageStyles} />
                 </div>
                 {/* post info */}
                 <div className="bg-white w-80 flex flex-col">
                     <Header user={post.user} post={post} />
                     <div className="flex-grow p-3 border-t overflow-y-auto comments">
-                        <Caption user={userFocus} caption={post.caption} created={post.created} />
+                        <Caption user={post.user} caption={post.caption} created={post.created} />
                         {
                             allComments && (
                                 allComments.map((comment) => {

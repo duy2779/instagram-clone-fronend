@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { postToggleLike } from '../../../features/postSlice'
 import Comments from './Comments'
 
-const PostInfo = ({ username, likes_count, caption, created, users_like, postID, comments, handleFocus }) => {
+const PostInfo = ({ username, likes_count, caption, created, users_like, postID, comments, handleFocus, post }) => {
     const distanceTime = distanceDate(created)
 
     const dispatch = useDispatch()
@@ -29,7 +29,7 @@ const PostInfo = ({ username, likes_count, caption, created, users_like, postID,
                 <span className="font-semibold">{username}</span>
                 {` ${caption}`}
             </p>
-            <Comments comments={comments} />
+            <Comments comments={comments} post={post}/>
             <p className="ml-1 text-gray-secondary text-xxs leading-3">{distanceTime.toUpperCase()}</p>
         </div>
     )

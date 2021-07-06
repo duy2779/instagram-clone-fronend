@@ -2,23 +2,34 @@ import { backendURL } from '../../constants/BackendConfig'
 import Skeleton from 'react-loading-skeleton';
 import { showPostModal } from '../../features/postsProfileSlice'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 const Photos = ({ photos, postsCount }) => {
     const dispatch = useDispatch()
+    const history = useHistory()
+
+    const photoOnClick = (photo) => {
+        if(window.matchMedia("(min-width: 768px)").matches){
+            dispatch(showPostModal({ photo }))
+        }else{
+            history.push(`/p/${photo.id}`)
+        }
+
+    }
 
     return (
-        <div className="border-t border-gray-primary mt-12">
-            <div className="grid grid-cols-3 gap-8 mt-4 mb-12 ">
+        <div className="border-t border-gray-primary mt-4 md:mt-12 md:mx-4">
+            <div className="grid grid-cols-3 gap-1 md:gap-8 md:mt-4 mb-12 ">
                 {
                     !photos
                         ? new Array(postsCount).fill(0).map((_, i) => <Skeleton key={i} width={288} height={288} />)
                         : postsCount > 0
                             ? photos.map((photo) => (
-                                <div key={photo.id} className="relative group w-80 h-80">
-                                    <img src={backendURL + photo.image} alt={photo.caption} className="w-full h-full object-cover" />
+                                <div key={photo.id} className="relative group">
+                                    <img src={backendURL + photo.image} alt={photo.caption} className="w-full h-full object-cover" style={{ aspectRatio: '1' }} />
 
                                     <div
-                                        onClick={() => dispatch(showPostModal({ photo }))}
+                                        onClick={() => photoOnClick(photo)}
                                         className="absolute bottom-0 left-0 z-10 w-full justify-center items-center h-full bg-black-faded group-hover:flex hidden">
                                         <p className="flex items-center text-white font-bold mr-5">
                                             <svg

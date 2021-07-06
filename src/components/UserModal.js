@@ -27,7 +27,7 @@ const UserModal = () => {
     return (
         <ModalPrioritize show={unFollowUserModal.show} hide={hideUnFollowUserModal}>
             <div className="relative bg-white rounded-2xl mb-20 text-sm">
-                <div className="flex flex-col justify-center items-center px-36 pt-10 pb-6 border-b">
+                <div className="flex flex-col justify-center items-center px-20 md:px-36 pt-10 pb-6 border-b">
                     <img src={backendURL + avatar} alt="instagram" className="w-24 h-24 rounded-full mb-5" />
                     <p>Unfollow @{username}?</p>
                 </div>

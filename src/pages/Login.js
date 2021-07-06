@@ -33,12 +33,12 @@ const Login = () => {
     }, [dispatch])
 
     return (
-        <div className="container flex mx-auto max-w-screen-md items-center h-screen">
-            <div className="flex w-3/5">
+        <div className="container flex mx-auto max-w-screen-md items-center h-screen justify-center">
+            <div className="hidden md:flex w-3/5">
                 <img src="/images/iphone-with-profile.jpg" alt="iphone with profile" />
             </div>
 
-            <div className="flex flex-col w-1/2">
+            <div className="flex flex-col w-5/6 md:w-1/2 md:mr-5 lg:mr-0 max-w-xs">
                 {/* logo */}
                 <div className="border border-gray-primary bg-white px-10 pt-10 pb-4 mb-3">
                     <h1 className="flex justify-center w-full">

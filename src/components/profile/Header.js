@@ -58,67 +58,99 @@ const Header = ({ user }) => {
     }
 
     return (
-        <div className="mx-auto max-w-screen-lg grid grid-cols-3">
-            <div className="col-span-1 flex justify-center">
-                <img src={backendURL + user.avatar_pic} alt={user.username} className="w-36 h-36 rounded-full" />
-            </div>
-            <div className="col-span-2">
-                <div className="mb-5 flex">
-                    <p className="text-3xl font-light mr-5">{user.username}</p>
-                    {
-                        isCurrentUser ? (
-                            <Link to={ROUTES.PROFILE_EDIT}>
-                                <button className="border border-gray-primary focus:outline-none rounded px-8 h-8 text-sm font-semibold">
-                                    Edit Profile
-                                </button>
-                            </Link>
-
-                        ) : <ToggleFollow isFollow={isFollow} followOnClick={followOnClick} user={user} />
-                    }
-
+        <>
+            <div className="mx-4 md:max-w-screen-lg mt-4 md:mt-0 grid grid-cols-3">
+                <div className="col-span-1 flex md:justify-center">
+                    <img src={backendURL + user.avatar_pic} alt={user.username} className="w-20 h-20 md:w-36 md:h-36 rounded-full" />
                 </div>
-                <div className="flex mb-5">
-                    <p className="mr-5">
-                        <span className="font-semibold">
-                            {`${user.posts_count} `}
-                        </span>
+                <div className="col-span-2">
+                    <div className="mb-5 flex flex-col md:flex-row gap-y-2">
+                        <p className="text-3xl font-light md:mr-5">{user.username}</p>
                         {
-                            user.posts_count > 1 ? 'posts' : 'post'
-                        }
-                    </p>
-                    <p className={`mr-5 ${followers > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followersOnclick}>
-                        <span className="font-semibold">
-                            {`${followers} `}
-                        </span>
-                        followers
-                    </p>
-                    <p className={`mr-5 ${user.following.length > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followingOnClick}>
-                        <span className="font-semibold">
-                            {`${user.following.length} `}
-                        </span>
-                        following
-                    </p>
-                </div>
-                <div className="mb-5 font-semibold">{user.full_name}</div>
-            </div>
-            {
-                isFollowersModalShow &&
-                <FollowersModal
-                    username={user.username}
-                    isShow={isFollowersModalShow}
-                    setIsShow={setIsFollowersModalShow}
-                />
-            }
-            {
-                isFollowingModalShow &&
-                <FollowingModal
-                    username={user.username}
-                    isShow={isFollowingModalShow}
-                    setIsShow={setIsFollowingModalShow}
-                />
-            }
+                            isCurrentUser ? (
+                                <Link to={ROUTES.PROFILE_EDIT}>
+                                    <button className="border border-gray-primary focus:outline-none rounded px-8 h-8 text-sm font-semibold w-full">
+                                        Edit Profile
+                                    </button>
+                                </Link>
 
-        </div>
+                            ) : <ToggleFollow isFollow={isFollow} followOnClick={followOnClick} user={user} />
+                        }
+
+                    </div>
+                    <div className="hidden md:flex mb-5">
+                        <p className="mr-5">
+                            <span className="font-semibold">
+                                {`${user.posts_count} `}
+                            </span>
+                            {
+                                user.posts_count > 1 ? 'posts' : 'post'
+                            }
+                        </p>
+                        <p className={`mr-5 ${followers > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followersOnclick}>
+                            <span className="font-semibold">
+                                {`${followers} `}
+                            </span>
+                            followers
+                        </p>
+                        <p className={`mr-5 ${user.following.length > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followingOnClick}>
+                            <span className="font-semibold">
+                                {`${user.following.length} `}
+                            </span>
+                            following
+                        </p>
+                    </div>
+                    <div className="hidden md:block mb-5 font-semibold">{user.full_name}</div>
+                </div>
+                {
+                    isFollowersModalShow &&
+                    <FollowersModal
+                        username={user.username}
+                        isShow={isFollowersModalShow}
+                        setIsShow={setIsFollowersModalShow}
+                    />
+                }
+                {
+                    isFollowingModalShow &&
+                    <FollowingModal
+                        username={user.username}
+                        isShow={isFollowingModalShow}
+                        setIsShow={setIsFollowingModalShow}
+                    />
+                }
+
+            </div>
+            <div className="md:hidden flex mx-4 font-semibold">
+                <p>{user.full_name}</p>
+
+            </div>
+
+            <div className="md:hidden flex justify-center gap-x-20 pt-4 border-t mt-4">
+                <p className="flex flex-col items-center">
+                    <span className="font-semibold">
+                        {`${user.posts_count} `}
+                    </span>
+                    <p className="text-gray-secondary">
+                    {
+                        user.posts_count > 1 ? 'posts' : 'post'
+                    }
+                    </p>
+
+                </p>
+                <p className={`flex flex-col items-center ${followers > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followersOnclick}>
+                    <span className="font-semibold">
+                        {`${followers} `}
+                    </span>
+                    <p className="text-gray-secondary">followers</p>
+                </p>
+                <p className={`flex flex-col items-center ${user.following.length > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followingOnClick}>
+                    <span className="font-semibold">
+                        {`${user.following.length} `}
+                    </span>
+                    <p className="text-gray-secondary">following</p>
+                </p>
+            </div>
+        </>
     )
 }
 

@@ -1,19 +1,23 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { addComment } from '../features/postSlice'
+import { getPostsProfile } from '../features/postsProfileSlice'
 
 const CommentInput = ({ setAllComments, allComments, post_id, commentInputRef }) => {
     const dispatch = useDispatch()
 
     const [commentInput, setCommentInput] = useState('')
-    const { currentUser } = useSelector((state) => state.user)
+    const { currentUser, userFocus } = useSelector((state) => state.user)
     const commentInputInValid = commentInput === ''
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
-        dispatch(addComment({ post_id, comment: commentInput }))
+        await dispatch(addComment({ post_id, comment: commentInput }))
         setAllComments([...allComments, { user: currentUser.username, comment: commentInput }])
         setCommentInput('')
+        if(userFocus.username){
+            await dispatch(getPostsProfile({ username: userFocus.username }))
+        }
     }
 
     return (
@@ -28,6 +32,7 @@ const CommentInput = ({ setAllComments, allComments, post_id, commentInputRef })
 
                     <input value={commentInput} type="text" placeholder="Add a comment..."
                         className="flex-grow focus:outline-none text-sm"
+                        style={{backgroundColor:'transparent'}}
                         onChange={({ target }) => setCommentInput(target.value)}
                         ref={commentInputRef} />
                     <button type="submit" className={`font-semibold text-blue-medium focus:outline-none text-sm p-4

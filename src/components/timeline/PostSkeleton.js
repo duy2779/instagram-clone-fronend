@@ -12,7 +12,9 @@ const PostSkeleton = () => {
                     </div>
                 </div>
             </div>
-            <Skeleton width={670} height={700} className="" />
+            <div className="w-screen md:w-96 lg:w-auto">
+                <Skeleton height={700}/>
+            </div>
         </div>
     )
 }
