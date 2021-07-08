@@ -17,9 +17,9 @@ const ProfileMenuActions = ({ user, logOutOnClick }) => {
 
                 <div className={`inset-0 fixed w-full h-full z-10 ${!menuShow && "hidden"}`} onClick={() => setMenuShow(false)}></div>
 
-                <div className={`absolute right-0 bg-white mt-2 shadow-xl z-20 rounded-lg text-sm ${!menuShow && "hidden"}`}>
+                <div className={`profile-actions absolute -right-3 bg-white mt-2 z-20 rounded-lg text-sm ${!menuShow && "hidden"}`}>
                     <Link to={`/profile/${user.username}`}>
-                        <div className="flex items-center rounded-t-lg p-2 w-56 hover:bg-gray-background ">
+                        <div className="flex items-center rounded-t-lg p-2 w-56 hover:bg-gray-background">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
