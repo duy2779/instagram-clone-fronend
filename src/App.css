@@ -45,3 +45,13 @@ body{
     filter: drop-shadow(2px -2px 2px rgba(149, 157, 165, 0.2));
 }
 
+.notifications-count:before{
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    margin-left: -10px;
+    border-bottom: 10px solid #ed4956;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
+}

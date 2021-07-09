@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { showUnFollowUserModal, followUser } from "../features/userSlice"
+import { showUnFollowUserModal, followUser, getUser } from "../features/userSlice"
 
 const NotificationToggleFollow = ({ user }) => {
     const dispatch = useDispatch()
@@ -11,6 +11,8 @@ const NotificationToggleFollow = ({ user }) => {
     const followOnClick = async () => {
         await dispatch(followUser(username))
         setIsFollow(true)
+        dispatch(getUser())
+        
     }
 
     useEffect(() => {
