@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { get, getApiURL } from '../features/config'
 import { backendURL } from '../constants/BackendConfig'
 import NotificationToggleFollow from './NotificationToggleFollow'
+import { Link } from 'react-router-dom'
 
 const Notifications = () => {
     const [isFetching, setIsFetching] = useState(false)
@@ -50,14 +51,21 @@ const Notifications = () => {
                                 <ul>
                                     {
                                         notifications.map((notification) => (
-                                            <li key={notification.id} className="p-2 flex items-center justify-between gap-x-2 mb-2">
-                                                <img
-                                                    src={backendURL + notification.created_by.avatar_pic}
-                                                    alt={notification.created_by.username}
-                                                    className="w-12 h-12 rounded-full oject-cover"
-                                                />
+                                            <li
+                                                key={notification.id}
+                                                className="p-2 flex items-center justify-between gap-x-2 mb-2"
+                                            >
+                                                <Link to={`/profile/${notification.created_by.username}`}>
+                                                    <img
+                                                        src={backendURL + notification.created_by.avatar_pic}
+                                                        alt={notification.created_by.username}
+                                                        className="w-12 h-12 rounded-full oject-cover"
+                                                    />
+                                                </Link>
                                                 <p className="text-sm flex-grow">
-                                                    <span className="font-semibold">{notification.created_by.username}</span>
+                                                    <Link to={`/profile/${notification.created_by.username}`}>
+                                                        <span className="font-semibold">{notification.created_by.username}</span>
+                                                    </Link>
                                                     <span>
                                                         {
                                                             notification.notification_type === 'like' && ' liked your photo.'
@@ -75,7 +83,9 @@ const Notifications = () => {
                                                     notification.post === null ? (
                                                         <NotificationToggleFollow user={notification.created_by} />
                                                     ) : (
-                                                        <img className="w-10 h-10 object-cover" src={backendURL + notification.post.image} alt={notification.post.id} />
+                                                        <Link to={`/p/${notification.post.id}`}>
+                                                            <img className="w-10 h-10 object-cover" src={backendURL + notification.post.image} alt={notification.post.id} />
+                                                        </Link>
                                                     )
                                                 }
                                             </li>
