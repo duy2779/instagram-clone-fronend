@@ -13,8 +13,10 @@ const DashBoard = () => {
 
     useEffect(() => {
         document.title = "Instagram"
+        console.log('abc')
         dispatch(getUserRecommended())
-    }, [dispatch])
+        // eslint-disable-next-line
+    }, [])
 
     useEffect(() => {
         if (isSuccess) {

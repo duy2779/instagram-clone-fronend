@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 
-import { get, getApiURL } from '../features/config'
-import { backendURL } from '../constants/BackendConfig'
-import NotificationToggleFollow from './NotificationToggleFollow'
-import { Link } from 'react-router-dom'
+import { get, getApiURL, patch } from '../features/config'
+import { isThisMinute, isToday, isThisWeek, isThisMonth } from '../helpers/dateHandler'
+import Notification from './Notification'
 
 const Notifications = () => {
     const [isFetching, setIsFetching] = useState(false)
@@ -15,6 +14,55 @@ const Notifications = () => {
         }, 1000)
     }
 
+    const notificationsFilter = (allNotifications) => {
+        const thisMinute = []
+        const today = []
+        const thisWeek = []
+        const thisMonth = []
+        const older = []
+
+        for (const item of allNotifications) {
+            if (item.seen === false || isThisMinute(item.created)) {
+                thisMinute.push(item)
+                continue
+            }
+            if (isToday(item.created)) {
+                today.push(item)
+                continue
+            }
+            if (isThisWeek(item.created)) {
+                thisWeek.push(item)
+                continue
+            }
+            if (isThisMonth(item.created)) {
+                thisMonth.push(item)
+                continue
+            }
+
+            older.push(item)
+        }
+
+        return {
+            length: allNotifications.length,
+            thisMinute,
+            today,
+            thisWeek,
+            thisMonth,
+            older
+        }
+    }
+
+    const markNotifications = async () => {
+        try {
+            await patch({
+                url: getApiURL("notification/mark-notifications-seen"),
+                payload: {}
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     useEffect(() => {
         async function fetchData() {
             setIsFetching(true)
@@ -24,7 +72,7 @@ const Notifications = () => {
                 })
                 if (response.status === 200) {
                     delay()
-                    setNotifications(response.data)
+                    setNotifications(() => notificationsFilter(response.data))
                 }
             } catch (error) {
                 delay()
@@ -33,6 +81,10 @@ const Notifications = () => {
         }
 
         fetchData()
+
+        return () => {
+            markNotifications()
+        }
     }, [])
 
     return (
@@ -50,46 +102,74 @@ const Notifications = () => {
                             ) : (
                                 <ul>
                                     {
-                                        notifications.map((notification) => (
-                                            <li
-                                                key={notification.id}
-                                                className="p-2 flex items-center justify-between gap-x-2 mb-2"
-                                            >
-                                                <Link to={`/profile/${notification.created_by.username}`}>
-                                                    <img
-                                                        src={backendURL + notification.created_by.avatar_pic}
-                                                        alt={notification.created_by.username}
-                                                        className="w-12 h-12 rounded-full oject-cover"
-                                                    />
-                                                </Link>
-                                                <p className="text-sm flex-grow">
-                                                    <Link to={`/profile/${notification.created_by.username}`}>
-                                                        <span className="font-semibold">{notification.created_by.username}</span>
-                                                    </Link>
-                                                    <span>
-                                                        {
-                                                            notification.notification_type === 'like' && ' liked your photo.'
-                                                        }
-                                                        {
-                                                            notification.notification_type === 'comment' && ` added a comment.`
-                                                        }
-                                                        {
-                                                            notification.notification_type === 'follow' && ` started following you.`
-                                                        }
-                                                    </span>
-
-                                                </p>
-                                                {
-                                                    notification.post === null ? (
-                                                        <NotificationToggleFollow user={notification.created_by} />
-                                                    ) : (
-                                                        <Link to={`/p/${notification.post.id}`}>
-                                                            <img className="w-10 h-10 object-cover" src={backendURL + notification.post.image} alt={notification.post.id} />
-                                                        </Link>
-                                                    )
-                                                }
+                                        notifications.thisMinute.length !== 0 && (
+                                            <li className="border-b">
+                                                <p className="p-2 text-sm font-semibold">New</p>
+                                                <ul>
+                                                    {
+                                                        notifications.thisMinute.map((notification) => (
+                                                            <Notification key={notification.id} notification={notification} />
+                                                        ))
+                                                    }
+                                                </ul>
                                             </li>
-                                        ))
+                                        )
+                                    }
+                                    {
+                                        notifications.today.length !== 0  && (
+                                            <li className="border-b">
+                                                <p className="p-2 text-sm font-semibold">Today</p>
+                                                <ul>
+                                                    {
+                                                        notifications.today.map((notification) => (
+                                                            <Notification key={notification.id} notification={notification} />
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </li>
+                                        )
+                                    }
+                                    {
+                                        notifications.thisWeek.length !== 0  && (
+                                            <li className="border-b">
+                                                <p className="p-2 text-sm font-semibold">This week</p>
+                                                <ul>
+                                                    {
+                                                        notifications.thisWeek.map((notification) => (
+                                                            <Notification key={notification.id} notification={notification} />
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </li>
+                                        )
+                                    }
+                                    {
+                                        notifications.thisMonth.length !== 0  && (
+                                            <li className="border-b">
+                                                <p className="p-2 text-sm font-semibold">This month</p>
+                                                <ul>
+                                                    {
+                                                        notifications.thisMonth.map((notification) => (
+                                                            <Notification key={notification.id} notification={notification} />
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </li>
+                                        )
+                                    }
+                                    {
+                                        notifications.older.length !== 0  && (
+                                            <li className="border-b">
+                                                <p className="p-2 text-sm font-semibold">Older</p>
+                                                <ul>
+                                                    {
+                                                        notifications.older.map((notification) => (
+                                                            <Notification key={notification.id} notification={notification} />
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </li>
+                                        )
                                     }
                                 </ul>
                             )

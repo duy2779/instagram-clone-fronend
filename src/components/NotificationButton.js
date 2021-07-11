@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { patch, getApiURL } from "../features/config"
+
 import { getUser } from "../features/userSlice"
 
 import Notifications from "./Notifications"
@@ -19,25 +19,13 @@ const NotificationButton = () => {
         return () => clearTimeout(timer)
     }, [])
 
-    const markNotifications = async () => {
-        try {
-            await patch({
-                url: getApiURL("notification/mark-notifications-seen"),
-                payload: {}
-            })
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
     const notificationOnClick = () => {
-        setDropDownShow(!dropDownShow)
         if(hasUnseen){
             setHasUnseen(false)
             setShowCount(false)
-            markNotifications()
             dispatch(getUser())
         }
+        setDropDownShow(!dropDownShow)
     }
 
     return (

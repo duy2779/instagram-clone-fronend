@@ -41,7 +41,7 @@ function App() {
           <PrivateRoute path={ROUTERS.DASHBOARD} exact>
             <DashBoard />
           </PrivateRoute>
-          <Route exact path={ROUTERS.PROFILE_EDIT} component={ProfileEdit} />
+          <Route exact path={ROUTERS.PROFILE_EDIT} component={ProfileEdit} /> 
           <Route exact path={ROUTERS.PROFILE} component={Profile} />
           <Route exact path={ROUTERS.POST} component={Post} />
 
@@ -55,7 +55,7 @@ function App() {
 
           <Route component={NotFound} />
         </Switch>
-        <AppMessage/>
+        <AppMessage />
         {
           unFollowUserModal.show && <UserModal />
         }
