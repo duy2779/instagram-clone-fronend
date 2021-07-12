@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
-
-import { getUser } from "../features/userSlice"
+import { useSelector } from "react-redux"
 
 import Notifications from "./Notifications"
 
 const NotificationButton = () => {
-    const dispatch = useDispatch()
     const [dropDownShow, setDropDownShow] = useState(false)
     const { unseen_notifications_count } = useSelector(state => state.user.currentUser)
     const [hasUnseen, setHasUnseen] = useState(!!unseen_notifications_count)
@@ -20,11 +17,6 @@ const NotificationButton = () => {
     }, [])
 
     const notificationOnClick = () => {
-        if(hasUnseen){
-            setHasUnseen(false)
-            setShowCount(false)
-            dispatch(getUser())
-        }
         setDropDownShow(!dropDownShow)
     }
 
@@ -38,7 +30,7 @@ const NotificationButton = () => {
 
             <div className={`inset-0 fixed w-full h-full z-10 ${!dropDownShow && "hidden"}`} onClick={() => setDropDownShow(false)}></div>
             {
-                dropDownShow && <Notifications />
+                dropDownShow && <Notifications hasUnseen={hasUnseen} setHasUnseen={setHasUnseen} setShowCount={setShowCount} />
             }
             {
                 hasUnseen && (

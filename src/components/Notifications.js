@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
+import { useDispatch } from "react-redux"
 
 import { get, getApiURL, patch } from '../features/config'
 import { isThisMinute, isToday, isThisWeek, isThisMonth } from '../helpers/dateHandler'
 import Notification from './Notification'
+import { getUser } from "../features/userSlice"
 
-const Notifications = () => {
+const Notifications = ({ hasUnseen, setHasUnseen, setShowCount }) => {
+    const dispatch = useDispatch()
     const [isFetching, setIsFetching] = useState(false)
     const [notifications, setNotifications] = useState(null)
 
@@ -83,8 +86,14 @@ const Notifications = () => {
         fetchData()
 
         return () => {
-            markNotifications()
+            if (hasUnseen) {
+                setHasUnseen(false)
+                setShowCount(false)
+                markNotifications()
+                dispatch(getUser())
+            }
         }
+        // eslint-disable-next-line
     }, [])
 
     return (
@@ -116,7 +125,7 @@ const Notifications = () => {
                                         )
                                     }
                                     {
-                                        notifications.today.length !== 0  && (
+                                        notifications.today.length !== 0 && (
                                             <li className="border-b">
                                                 <p className="p-2 text-sm font-semibold">Today</p>
                                                 <ul>
@@ -130,7 +139,7 @@ const Notifications = () => {
                                         )
                                     }
                                     {
-                                        notifications.thisWeek.length !== 0  && (
+                                        notifications.thisWeek.length !== 0 && (
                                             <li className="border-b">
                                                 <p className="p-2 text-sm font-semibold">This week</p>
                                                 <ul>
@@ -144,7 +153,7 @@ const Notifications = () => {
                                         )
                                     }
                                     {
-                                        notifications.thisMonth.length !== 0  && (
+                                        notifications.thisMonth.length !== 0 && (
                                             <li className="border-b">
                                                 <p className="p-2 text-sm font-semibold">This month</p>
                                                 <ul>
@@ -158,7 +167,7 @@ const Notifications = () => {
                                         )
                                     }
                                     {
-                                        notifications.older.length !== 0  && (
+                                        notifications.older.length !== 0 && (
                                             <li className="border-b">
                                                 <p className="p-2 text-sm font-semibold">Older</p>
                                                 <ul>
