@@ -6,7 +6,7 @@ import { showMessage } from '../../../features/appMessageSlice'
 
 const InfoForm = ({ user }) => {
     const dispatch = useDispatch()
-    const { errorMessage } = useSelector(state => state.user)
+    const { upload_info } = useSelector(state => state.user)
     const [username, setUserName] = useState(user.username)
     const [fullName, setFullName] = useState(user.full_name)
     const [email, setEmail] = useState(user.email)
@@ -14,10 +14,10 @@ const InfoForm = ({ user }) => {
 
     const isValid = (username !== user.username || fullName !== user.full_name || email !== user.email) && !isBlank
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         await dispatch(updateInfo({ username, full_name: fullName, email }))
-        dispatch(showMessage({message:"Profile updated"}))
+        dispatch(showMessage({ message: "Profile updated" }))
     }
 
     return (
@@ -65,8 +65,17 @@ const InfoForm = ({ user }) => {
             <div className="md:flex md:justify-between mb-4">
                 <div></div>
                 <div className="md:w-4/5">
-                    {errorMessage && <p className="mb-4 text-sm text-red-primary ">
-                        {errorMessage.username ? errorMessage.username : errorMessage.email ? errorMessage.email : errorMessage}</p>}
+                    {upload_info.error_message && (
+                        <p className="text-sm text-red-primary mb-3">
+                            {
+                                upload_info.error_message.username ?
+                                    upload_info.error_message.username :
+                                    upload_info.error_message.email ?
+                                        upload_info.error_message.email :
+                                        upload_info.error_message
+                            }
+                        </p>)
+                    }
                     <button
                         type="submit"
                         className={`bg-blue-medium text-sm font-semibold text-white px-2 py-2 rounded focus:outline-none ${!isValid && 'opacity-50 disabled'}`}

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import * as ROUTES from '../constants/Routes'
-import { authSelector, login, clearAuth } from '../features/authSlice'
+import { login, clearLogin, socialLogin, clearSocial } from '../features/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import FacebookLogin from 'react-facebook-login';
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -10,27 +11,47 @@ const Login = () => {
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
-    const { errorMessage, isSuccess, isFetching } = useSelector(authSelector)
+    const { loginState, social } = useSelector(state => state.auth)
 
     const isInvalid = username === '' || password === ''
 
     const handleLogin = (e) => {
         e.preventDefault();
         dispatch(login({ username, password }))
+    }
 
+    const fbResponse = (response) => {
+        dispatch(socialLogin({ access_token: response.accessToken }))
     }
 
     useEffect(() => {
-        if (isSuccess) {
-            dispatch(clearAuth())
+        if (loginState.isSuccess) {
+            dispatch(clearLogin())
             history.push(ROUTES.DASHBOARD)
         }
-    }, [isSuccess, dispatch, history])
+        // eslint-disable-next-line 
+    }, [loginState.isSuccess])
 
     useEffect(() => {
-        dispatch(clearAuth())
+        if (social.isSuccess) {
+            if (social.isNew) {
+                dispatch(clearSocial())
+                history.push(ROUTES.COMPLETE_PROFILE)
+            } else {
+                dispatch(clearSocial())
+                history.push(ROUTES.DASHBOARD)
+            }
+        }
+        // eslint-disable-next-line
+    }, [social.isSuccess])
+
+    useEffect(() => {
         document.title = 'Login • Instagram';
-    }, [dispatch])
+        if (localStorage.getItem('token')) {
+            history.push(ROUTES.DASHBOARD)
+        }
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <div className="container flex mx-auto max-w-screen-md items-center h-screen justify-center">
@@ -69,7 +90,7 @@ const Login = () => {
                         ${isInvalid && 'opacity-40'}`
                         }>
                             {
-                                isFetching ? <img src="/svg/spinner.svg" className="h-full w-15 mx-auto" alt="spinner" /> :
+                                loginState.isFetching ? <img src="/svg/spinner.svg" className="h-full w-15 mx-auto" alt="spinner" /> :
                                     'Log In'
                             }
                         </button>
@@ -84,11 +105,24 @@ const Login = () => {
                     </p>
                     {/* fb link */}
                     <p className="flex justify-center mt-6 font-semibold text-blue-fb text-sm">
-                        <img className="h-full mt-0.5 w-4 mr-2" src="/images/fb_logo.png" alt="fb-logo" />
-                        <Link to="/fb">Login with Facebook</Link>
+                        {
+                            social.isFetching ? (
+                                <img src="/svg/spinner-gray.svg" className="h-10 w-10" alt="spinner" />
+                            ) : (
+                                <FacebookLogin
+                                    textButton="Login with facebook"
+                                    appId="549417432860509"
+                                    fields="name,email,picture"
+                                    callback={fbResponse}
+                                    cssClass="p-0 text-sm focus:outline-none font-semibold flex"
+                                    icon={<img className="h-full mt-0.5 w-4 mr-2" src="/images/fb_logo.png" alt="fb-logo" />}
+                                />
+                            )
+                        }
+
                     </p>
                     {/* error message */}
-                    {errorMessage && <p className="mb-4 text-sm my-3 text-center text-red-primary ">{errorMessage}</p>}
+                    {loginState.errorMessage && <p className="mb-4 text-sm my-3 text-center text-red-primary ">{loginState.errorMessage}</p>}
 
                     <p className="flex justify-center mt-4 text-blue-fb text-sm">
                         <Link to="/forgot">Forgot password?</Link>

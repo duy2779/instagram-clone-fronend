@@ -13,7 +13,13 @@ const initialState = {
     isFetching: false,
     isSuccess: false,
     isError: false,
-    errorMessage: ""
+    errorMessage: "",
+    upload_info: {
+        pending: false,
+        success: false,
+        error: false,
+        error_message: "",
+    }
 }
 
 export const userSelector = state => state.user
@@ -135,7 +141,6 @@ export const updateInfo = createAsyncThunk(
     'user/updateInfo',
     async (user, thunkAPI) => {
         try {
-            console.log(user)
             const response = await patch({
                 url: getApiURL(`accounts/update-info`),
                 payload: user
@@ -169,6 +174,14 @@ const userSlice = createSlice({
             state.isError = false
             state.isSuccess = false
             state.errorMessage = ""
+        },
+        clearUpdateInfo: (state) => {
+            state.upload_info = {
+                pending: false,
+                success: false,
+                error: false,
+                error_message: "",
+            }
         },
         clearUser: (state) => {
             state.currentUser = {}
@@ -256,11 +269,18 @@ const userSlice = createSlice({
             state.errorMessage = payload
         },
         //update info
+        [updateInfo.pending]: (state) => {
+            state.upload_info.pending = true
+        },
         [updateInfo.fulfilled]: (state, { payload }) => {
+            state.upload_info.pending = false
             state.currentUser = payload.user
+            state.upload_info.success = true
         },
         [updateInfo.rejected]: (state, { payload }) => {
-            state.errorMessage = payload
+            state.upload_info.pending = false
+            state.upload_info.error = true
+            state.upload_info.error_message = payload
         },
     }
 });
@@ -271,6 +291,7 @@ export const {
     showUnFollowUserModal,
     hideUnFollowUserModal,
     unfollowModalTrue,
-    clearUserFocus
+    clearUserFocus,
+    clearUpdateInfo
 } = userSlice.actions
 export default userSlice.reducer

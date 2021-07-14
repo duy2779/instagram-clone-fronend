@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import * as ROUTES from '../constants/Routes'
-import { authSelector, signUp, clearAuth } from '../features/authSlice'
+import { authSelector, signUp, clearSignup, socialLogin, clearSocial } from '../features/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import FacebookLogin from 'react-facebook-login';
 
-const Login = () => {
+const Signup = () => {
     const dispatch = useDispatch()
     const history = useHistory()
 
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [fullname, setFullname] = useState('');
-    const [emailOrPhone, serEmailOrPhone] = useState('');
+    const [emailOrPhone, setEmailOrPhone] = useState('');
 
-    const { errorMessage, isSuccess, isFetching } = useSelector(authSelector)
+    const { errorMessage, isSuccess, isFetching, social } = useSelector(authSelector)
 
     const formIsInvalid = username === '' || password === '' || fullname === '' || emailOrPhone === ''
 
@@ -23,17 +24,38 @@ const Login = () => {
 
     }
 
+    const fbResponse = (response) => {
+        dispatch(socialLogin({ access_token: response.accessToken }))
+    }
+
+    useEffect(() => {
+        if (social.isSuccess) {
+            if (social.isNew) {
+                dispatch(clearSocial())
+                history.push(ROUTES.COMPLETE_PROFILE)
+            } else {
+                dispatch(clearSocial())
+                history.push(ROUTES.DASHBOARD)
+            }
+        }
+        // eslint-disable-next-line
+    }, [social.isSuccess])
+
     useEffect(() => {
         if (isSuccess) {
-            dispatch(clearAuth())
-            history.push(ROUTES.DASHBOARD)
+            dispatch(clearSignup())
+            history.push(ROUTES.LOGIN)
         }
     }, [isSuccess, dispatch, history])
 
     useEffect(() => {
-        dispatch(clearAuth())
+        dispatch(clearSignup())
         document.title = 'Signup • Instagram';
-    }, [dispatch])
+        if (localStorage.getItem('token')) {
+            history.push(ROUTES.DASHBOARD)
+        }
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <div className="container flex mx-auto max-w-screen-md items-center h-screen">
@@ -45,10 +67,27 @@ const Login = () => {
                     </h1>
 
                     <p className="font-semibold text-center text-lg mb-5 text-gray-secondary">Sign up to see photos and videos from your friends.</p>
-                    <button className="
+                    {/* <button className="
                         bg-blue-medium  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none mb-6">
                         Log in with Facebook
-                    </button>
+                    </button> */}
+                    {
+                        social.isFetching ? (
+                            <button disabled type="submit" className=
+                                "bg-blue-medium  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none mb-6">
+
+                                <img src="/svg/spinner.svg" className="h-full w-15 mx-auto" alt="spinner" />
+                            </button>
+                        ) : (
+                            <FacebookLogin
+                                textButton="Login with facebook"
+                                appId="549417432860509"
+                                fields="name,email,picture"
+                                callback={fbResponse}
+                                cssClass="bg-blue-medium  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none mb-6"
+                            />
+                        )
+                    }
 
                     {/* or line */}
                     <p className="text-sm w-full text-center border-b border-gray-primary mb-6"
@@ -68,7 +107,7 @@ const Login = () => {
                                 className="text-xs text-gray-base w-full mr-3 
                                 py-5 px-4 h-2 border border-gray-primary rounded mb-2 
                                 bg-gray-background focus:outline-none focus:border-gray-secondary"
-                                onChange={({ target }) => serEmailOrPhone(target.value)}
+                                onChange={({ target }) => setEmailOrPhone(target.value)}
                             />
                             {/* <i class="text-2xl text-red-500 absolute far fa-times-circle right-2 bottom-3"></i> */}
                         </div>
@@ -134,4 +173,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Signup
