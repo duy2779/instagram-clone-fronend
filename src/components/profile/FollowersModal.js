@@ -36,7 +36,7 @@ const FollowersModal = ({ username, isShow, setIsShow }) => {
 
     return (
         <Modal show={isShow} hideByState={setIsShow}>
-            <div className="bg-white w-96 h-96 rounded-lg flex flex-col">
+            <div className="bg-white w-96 h-96 rounded-lg flex flex-col followers-modal">
                 {/* header */}
                 <p className="text-center font-semibold py-2 border-b">Followers</p>
                 {/* content */}

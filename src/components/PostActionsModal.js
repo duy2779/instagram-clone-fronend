@@ -24,7 +24,7 @@ const PostActionsModal = () => {
 
     return postActionsModal.show ? (
         <ModalPrioritize show={postActionsModal.show} hide={hidePostActionsModal}>
-            <div className="relative bg-white rounded-2xl">
+            <div className="relative bg-white rounded-2xl post-actions-modal">
                 {
                     isPostByCurrentUser() ? (
                         <p

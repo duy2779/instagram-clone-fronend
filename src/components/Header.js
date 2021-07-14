@@ -7,6 +7,7 @@ import UploadImageButton from './UploadImageButton'
 import ProfileMenuActions from './ProfileMenuActions'
 import SearchInput from "./SearchInput"
 import NotificationButton from "./NotificationButton"
+import { clearLogin } from "../features/authSlice"
 
 const Header = () => {
     const dispatch = useDispatch()
@@ -16,6 +17,7 @@ const Header = () => {
     const logOutOnClick = () => {
         dispatch(logOut())
         dispatch(clearUser())
+        dispatch(clearLogin())
         history.push(ROUTES.LOGIN)
     }
 
@@ -25,7 +27,7 @@ const Header = () => {
                 <div className="flex px-4 lg:px-0 justify-between h-full">
                     <div className="text-gray-700 w-28 text-center flex item-center align-items cursor-pointer">
                         <h1 className="flex justify-center w-full">
-                            <Link to={ROUTES.DASHBOARD} aria-label="Instagram logo" onClick={() => window.scroll(0,0)}>
+                            <Link to={ROUTES.DASHBOARD} aria-label="Instagram logo" onClick={() => window.scroll(0, 0)}>
                                 <img src="/images/logo.png" alt="instagram" className="w-11/12 mt-4 object-cover" />
                             </Link>
                         </h1>
@@ -34,7 +36,7 @@ const Header = () => {
                     <SearchInput />
 
                     <div className="flex gap-x-5 items-center justify-between">
-                        <Link to={ROUTES.DASHBOARD} onClick={() => window.scroll(0,0)}>
+                        <Link to={ROUTES.DASHBOARD} onClick={() => window.scroll(0, 0)}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                             </svg>

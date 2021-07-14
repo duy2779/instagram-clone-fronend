@@ -25,7 +25,7 @@ const RemoveFollowerModal = ({ show, setShow, follower, setIsRemoved }) => {
 
     return (
         <ModalPrioritize show={show} hideByState={setShow}>
-            <div className="relative bg-white rounded-2xl mb-20 text-sm max-w-sm">
+            <div className="relative bg-white rounded-2xl mb-20 text-sm max-w-sm remove-follower-modal">
                 <div className="flex flex-col justify-center items-center text-center pt-10 pb-6 border-b">
                     <img src={backendURL + follower.avatar_pic} alt="instagram" className="w-24 h-24 rounded-full mb-5" />
                     <p className="text-xl font-light mb-2">Remove Follower?</p>

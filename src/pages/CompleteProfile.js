@@ -30,6 +30,7 @@ const CompleteProfile = () => {
             dispatch(getUser())
             history.push(ROUTES.DASHBOARD)
         }
+        // eslint-disable-next-line
     }, [upload_info.success])
 
     return (
