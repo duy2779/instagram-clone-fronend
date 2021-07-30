@@ -85,11 +85,11 @@ const Notifications = ({ hasUnseen, setHasUnseen, setShowCount }) => {
 
         fetchData()
 
-        return () => {
+        return async () => {
             if (hasUnseen) {
                 setHasUnseen(false)
                 setShowCount(false)
-                markNotifications()
+                await markNotifications()
                 dispatch(getUser())
             }
         }
