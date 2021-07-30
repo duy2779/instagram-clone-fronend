@@ -68,7 +68,7 @@ const Timeline = () => {
                         }
                     </InfiniteScroll>
                 ) : (
-                    <p>No Posts</p>
+                    <p className="text-center text-xl">No Posts Yet</p>
                 )
             }
         </div>

@@ -12,6 +12,7 @@ import DeletePostConfirm from './components/DeletePostConfirm'
 import PostActionsModal from './components/PostActionsModal'
 import PostModal from './components/profile/PostModal'
 import AppMessage from './components/AppMessage';
+import LoadingPage from './components/LoadingPage';
 
 const Login = lazy(() => import('./pages/Login'));
 const CompleteProfile = lazy(() => import('./pages/CompleteProfile'));
@@ -36,7 +37,8 @@ function App() {
 
   return (
     <Router>
-      <Suspense fallback={<p className="text-center">Loading...</p>}>
+
+      <Suspense fallback={<LoadingPage />}>
         <Switch>
           <PrivateRoute path={ROUTERS.DASHBOARD} exact>
             <DashBoard />
