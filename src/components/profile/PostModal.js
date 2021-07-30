@@ -39,15 +39,15 @@ function PostModal() {
 
 
     const likeOnClick = async () => {
-        await dispatch(postToggleLike({ postID: post.id }))
-        await dispatch(getPostsProfile({ username: userFocus.username }))
         setToggleLike(!toggleLike)
         setTotalLikes((totalLikes) => toggleLike ? totalLikes - 1 : totalLikes + 1)
+        await dispatch(postToggleLike({ postID: post.id }))
+        await dispatch(getPostsProfile({ username: userFocus.username }))
     }
 
     return post ? (
         <Modal show={postModal.show} hide={hidePostModal}>
-            <div className="max-w-screen-sm lg:max-w-screen-lg mx-auto flex md:h-96 lg:h-auto" style={{maxHeight:'600px'}}>
+            <div className="max-w-screen-sm lg:max-w-screen-lg mx-auto flex md:h-96 lg:h-auto" style={{ maxHeight: '600px' }}>
                 <div className="bg-black-base md:w-1/2 lg:w-auto flex">
                     <img src={backendURL + post.image} alt={post.caption} className="h-full w-full lg:h-auto lg:w-auto object-contain" style={imageStyles} />
                 </div>

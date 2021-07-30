@@ -14,7 +14,7 @@ const Signup = () => {
     const [fullname, setFullname] = useState('');
     const [emailOrPhone, setEmailOrPhone] = useState('');
 
-    const { errorMessage, isSuccess, isFetching, social } = useSelector(authSelector)
+    const { social, signupState } = useSelector(authSelector)
 
     const formIsInvalid = username === '' || password === '' || fullname === '' || emailOrPhone === ''
 
@@ -42,11 +42,11 @@ const Signup = () => {
     }, [social.isSuccess])
 
     useEffect(() => {
-        if (isSuccess) {
+        if (signupState.isSuccess) {
             dispatch(clearSignup())
             history.push(ROUTES.LOGIN)
         }
-    }, [isSuccess, dispatch, history])
+    }, [signupState.isSuccess, dispatch, history])
 
     useEffect(() => {
         dispatch(clearSignup())
@@ -101,9 +101,9 @@ const Signup = () => {
                     <form onSubmit={(e) => handleSignUp(e)} method="POST">
                         <div className="relative">
                             <input
-                                aria-label="Enter your email or phone"
+                                aria-label="Enter your email"
                                 type="text"
-                                placeholder="Mobile Number or Email"
+                                placeholder="Email"
                                 className="text-xs text-gray-base w-full mr-3 
                                 py-5 px-4 h-2 border border-gray-primary rounded mb-2 
                                 bg-gray-background focus:outline-none focus:border-gray-secondary"
@@ -143,14 +143,14 @@ const Signup = () => {
                         ${formIsInvalid && 'opacity-40'}`
                         }>
                             {
-                                isFetching ? <img src="/svg/spinner.svg" className="h-full w-15 mx-auto" alt="spinner" /> :
+                                signupState.isFetching ? <img src="/svg/spinner.svg" className="h-full w-15 mx-auto" alt="spinner" /> :
                                     'Sign up'
                             }
                         </button>
                     </form>
 
                     {/* error message */}
-                    {errorMessage && <p className="mt-5 text-sm my-3 text-center text-red-primary ">{errorMessage}</p>}
+                    {signupState.errorMessage && <p className="mt-5 text-sm my-3 text-center text-red-primary ">{signupState.errorMessage}</p>}
 
                     {/* term */}
                     <p className="text-center mt-6 text-xs text-gray-secondary w-4/5 mx-auto mb-3">
