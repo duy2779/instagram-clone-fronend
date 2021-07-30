@@ -17,7 +17,9 @@ const InfoForm = ({ user }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         await dispatch(updateInfo({ username, full_name: fullName, email }))
-        dispatch(showMessage({ message: "Profile updated" }))
+        if (upload_info.success) {
+            dispatch(showMessage({ message: "Profile updated" }))
+        }
     }
 
     return (
@@ -76,10 +78,15 @@ const InfoForm = ({ user }) => {
                             }
                         </p>)
                     }
-                    <button
-                        type="submit"
-                        className={`bg-blue-medium text-sm font-semibold text-white px-2 py-2 rounded focus:outline-none ${!isValid && 'opacity-50 disabled'}`}
-                    >Submit</button>
+                    <button disabled={!isValid && !upload_info.pending} type="submit" className={`
+                        bg-blue-medium w-16 flex items-center justify-center rounded h-8 font-semibold text-sm text-white focus:outline-none
+                        ${!isValid && 'opacity-40'}`
+                    }>
+                        {
+                            upload_info.pending ? <img src="/svg/spinner.svg" className="h-full mx-auto" alt="spinner" /> :
+                                'Submit'
+                        }
+                    </button>
                 </div>
             </div>
         </form>

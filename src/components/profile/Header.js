@@ -130,24 +130,24 @@ const Header = ({ user }) => {
                     <span className="font-semibold">
                         {`${user.posts_count} `}
                     </span>
-                    <p className="text-gray-secondary">
-                    {
-                        user.posts_count > 1 ? 'posts' : 'post'
-                    }
-                    </p>
+                    <span className="text-gray-secondary">
+                        {
+                            user.posts_count > 1 ? 'posts' : 'post'
+                        }
+                    </span>
 
                 </p>
                 <p className={`flex flex-col items-center ${followers > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followersOnclick}>
                     <span className="font-semibold">
                         {`${followers} `}
                     </span>
-                    <p className="text-gray-secondary">followers</p>
+                    <span className="text-gray-secondary">followers</span>
                 </p>
                 <p className={`flex flex-col items-center ${user.following.length > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followingOnClick}>
                     <span className="font-semibold">
                         {`${user.following.length} `}
                     </span>
-                    <p className="text-gray-secondary">following</p>
+                    <span className="text-gray-secondary">following</span>
                 </p>
             </div>
         </>
