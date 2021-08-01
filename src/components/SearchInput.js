@@ -55,7 +55,7 @@ const SearchInput = () => {
     }
 
     return (
-        <div className="w-1/5 my-auto relative flex justify-center">
+        <div className="w-1/5 my-auto relative hidden md:flex justify-center">
             <input
                 onFocus={handleFocus}
                 value={searchTerm}

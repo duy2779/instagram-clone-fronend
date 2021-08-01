@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
-import { updateInfo } from '../../../features/userSlice'
+import { updateInfo, clearUpdateInfo, clearUpdateInfoStatus } from '../../../features/userSlice'
 import { showMessage } from '../../../features/appMessageSlice'
 
 const InfoForm = ({ user }) => {
@@ -17,10 +17,22 @@ const InfoForm = ({ user }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         await dispatch(updateInfo({ username, full_name: fullName, email }))
+    }
+
+    useEffect(() => {
         if (upload_info.success) {
             dispatch(showMessage({ message: "Profile updated" }))
+            dispatch(clearUpdateInfoStatus())
         }
-    }
+        if (upload_info.error) {
+            dispatch(clearUpdateInfoStatus())
+        }
+    }, [upload_info.error, upload_info.success, dispatch])
+
+
+    useEffect(() => {
+        return () => dispatch(clearUpdateInfo())
+    }, [dispatch])
 
     return (
         <form className="mt-5 lg:w-9/12" onSubmit={handleSubmit}>

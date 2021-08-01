@@ -176,11 +176,14 @@ const userSlice = createSlice({
             state.errorMessage = ""
         },
         clearUpdateInfo: (state) => {
+            state.upload_info = initialState.upload_info
+        },
+        clearUpdateInfoStatus: (state) => {
             state.upload_info = {
+                ...state.upload_info,
                 pending: false,
                 success: false,
                 error: false,
-                error_message: "",
             }
         },
         clearUser: (state) => {
@@ -271,6 +274,7 @@ const userSlice = createSlice({
         //update info
         [updateInfo.pending]: (state) => {
             state.upload_info.pending = true
+            state.upload_info.error_message = ''
         },
         [updateInfo.fulfilled]: (state, { payload }) => {
             state.upload_info.pending = false
@@ -292,6 +296,7 @@ export const {
     hideUnFollowUserModal,
     unfollowModalTrue,
     clearUserFocus,
-    clearUpdateInfo
+    clearUpdateInfo,
+    clearUpdateInfoStatus,
 } = userSlice.actions
 export default userSlice.reducer
