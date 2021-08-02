@@ -150,7 +150,7 @@ const Signup = () => {
                             bg-gray-background focus:outline-none focus:border-gray-secondary"
                                 onChange={({ target }) => setPassword(target.value)}
                             />
-                            <label className="form-label" htmlFor="password">Email</label>
+                            <label className="form-label" htmlFor="password">Password</label>
                         </div>
                         <button disabled={formIsInvalid} type="submit" className={`
                         bg-blue-medium mt-2  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none
