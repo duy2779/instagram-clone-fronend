@@ -98,48 +98,62 @@ const Signup = () => {
                         >OR</span>
                     </p>
 
-                    <form onSubmit={(e) => handleSignUp(e)} method="POST">
-                        <div className="relative">
+                    <form className="flex flex-col gap-y-2" onSubmit={(e) => handleSignUp(e)} method="POST">
+                        <div className="field">
                             <input
+                                id="email"
                                 aria-label="Enter your email"
                                 type="text"
                                 placeholder="Email"
-                                className="text-xs text-gray-base w-full mr-3 
-                                py-5 px-4 h-2 border border-gray-primary rounded mb-2 
+                                className="form-input text-xs text-gray-base w-full mr-3 
+                                py-5 px-4 h-2 border border-gray-primary rounded 
                                 bg-gray-background focus:outline-none focus:border-gray-secondary"
                                 onChange={({ target }) => setEmailOrPhone(target.value)}
                             />
+                            <label className="form-label" htmlFor="email">Email</label>
                             {/* <i class="text-2xl text-red-500 absolute far fa-times-circle right-2 bottom-3"></i> */}
                         </div>
-                        <input
-                            aria-label="Enter your username"
-                            type="text"
-                            placeholder="Username"
-                            className="text-xs text-gray-base w-full mr-3 
-                            py-5 px-4 h-2 border border-gray-primary rounded mb-2 
+                        <div className="field">
+                            <input
+                                id="username"
+                                aria-label="Enter your username"
+                                type="text"
+                                placeholder="Username"
+                                className="form-input text-xs text-gray-base w-full mr-3 
+                            py-5 px-4 h-2 border border-gray-primary rounded 
                             bg-gray-background focus:outline-none focus:border-gray-secondary"
-                            onChange={({ target }) => setUserName(target.value)}
-                        />
-                        <input
-                            aria-label="Enter your fullname"
-                            type="text"
-                            placeholder="Full Name"
-                            className="text-xs text-gray-base w-full mr-3 
-                            py-5 px-4 h-2 border border-gray-primary rounded mb-2 
+                                onChange={({ target }) => setUserName(target.value)}
+                            />
+                            <label className="form-label" htmlFor="username">Username</label>
+                        </div>
+                        <div className="field">
+                            <input
+                                id="fullname"
+                                aria-label="Enter your fullname"
+                                type="text"
+                                placeholder="Full Name"
+                                className="form-input text-xs text-gray-base w-full mr-3 
+                            py-5 px-4 h-2 border border-gray-primary rounded 
                             bg-gray-background focus:outline-none focus:border-gray-secondary"
-                            onChange={({ target }) => setFullname(target.value)}
-                        />
-                        <input
-                            aria-label="Password"
-                            type="password"
-                            placeholder="Password"
-                            className="text-xs text-gray-base w-full mr-3 
-                            py-5 px-4 h-2 border border-gray-primary rounded mb-4
+                                onChange={({ target }) => setFullname(target.value)}
+                            />
+                            <label className="form-label" htmlFor="fullname">Fullname</label>
+                        </div>
+                        <div className="field">
+                            <input
+                                id="password"
+                                aria-label="Password"
+                                type="password"
+                                placeholder="Password"
+                                className="form-input text-xs text-gray-base w-full mr-3 
+                            py-5 px-4 h-2 border border-gray-primary rounded
                             bg-gray-background focus:outline-none focus:border-gray-secondary"
-                            onChange={({ target }) => setPassword(target.value)}
-                        />
+                                onChange={({ target }) => setPassword(target.value)}
+                            />
+                            <label className="form-label" htmlFor="password">Email</label>
+                        </div>
                         <button disabled={formIsInvalid} type="submit" className={`
-                        bg-blue-medium  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none
+                        bg-blue-medium mt-2  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none
                         ${formIsInvalid && 'opacity-40'}`
                         }>
                             {

@@ -66,27 +66,35 @@ const Login = () => {
                         <img src="/images/logo.png" alt="instagram" className="mt-2 w-8/12 mb-10" />
                     </h1>
 
-                    <form onSubmit={(e) => handleLogin(e)} method="POST">
-                        <input
-                            aria-label="Enter your username"
-                            type="text"
-                            placeholder="Phone number, username or email"
-                            className="text-xs text-gray-base w-full mr-3 
-                            py-5 px-4 h-2 border border-gray-primary rounded mb-2 
+                    <form className="flex flex-col gap-y-2" onSubmit={(e) => handleLogin(e)} method="POST">
+                        <div className="field">
+                            <input
+                                id="username"
+                                aria-label="Enter your username"
+                                type="text"
+                                placeholder="Username"
+                                className="form-input text-xs text-gray-base w-full mr-3 
+                            py-5 px-4 h-2 border border-gray-primary rounded
                             bg-gray-background focus:outline-none focus:border-gray-secondary"
-                            onChange={({ target }) => setUserName(target.value)}
-                        />
-                        <input
-                            aria-label="Password"
-                            type="password"
-                            placeholder="Password"
-                            className="text-xs text-gray-base w-full mr-3 
-                            py-5 px-4 h-2 border border-gray-primary rounded mb-4
+                                onChange={({ target }) => setUserName(target.value)}
+                            />
+                            <label className="form-label" htmlFor="username">Username</label>
+                        </div>
+                        <div className="field">
+                            <input
+                                id="password"
+                                aria-label="Password"
+                                type="password"
+                                placeholder="Password"
+                                className="form-input text-xs text-gray-base w-full mr-3 
+                            py-5 px-4 h-2 border border-gray-primary rounded
                             bg-gray-background focus:outline-none focus:border-gray-secondary"
-                            onChange={({ target }) => setPassword(target.value)}
-                        />
+                                onChange={({ target }) => setPassword(target.value)}
+                            />
+                            <label className="form-label" htmlFor="password">Password</label>
+                        </div>
                         <button disabled={isInvalid} type="submit" className={`
-                        bg-blue-medium  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none
+                        bg-blue-medium mt-2  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none
                         ${isInvalid && 'opacity-40'}`
                         }>
                             {

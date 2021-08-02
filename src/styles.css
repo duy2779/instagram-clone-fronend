@@ -2,6 +2,36 @@ body{
     background-color: #FAFAFA;
 }
 
+.field{
+    position: relative;
+}
+
+.form-label{
+    position: absolute;
+    pointer-events: none;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all ease-out 0.1s;
+    color: #999;
+    font-size: 12px;
+}
+
+.form-input::placeholder{
+    visibility: hidden;
+}
+
+.form-input:not(:placeholder-shown) + label{
+    top: 1px;
+    transform: translateY(0);
+    font-size: .65rem;
+}
+
+.form-input:not(:placeholder-shown){
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+}
+
 /* Animation */
 @keyframes fadeIn {
     from {
