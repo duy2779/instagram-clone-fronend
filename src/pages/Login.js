@@ -123,6 +123,8 @@ const Login = () => {
                                     fields="name,email,picture"
                                     callback={fbResponse}
                                     cssClass="p-0 text-sm focus:outline-none font-semibold flex"
+                                    isMobile={false}
+                                    redirectUri={window.location.href}
                                     icon={<img className="h-full mt-0.5 w-4 mr-2" src="/images/fb_logo.png" alt="fb-logo" />}
                                 />
                             )
