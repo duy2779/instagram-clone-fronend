@@ -84,6 +84,8 @@ const Signup = () => {
                                 appId="549417432860509"
                                 fields="name,email,picture"
                                 callback={fbResponse}
+                                isMobile={false}
+                                redirectUri={window.location.href}
                                 cssClass="bg-blue-medium  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none mb-6"
                             />
                         )
