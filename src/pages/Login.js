@@ -66,7 +66,7 @@ const Login = () => {
                         <img src="/images/logo.png" alt="instagram" className="mt-2 w-8/12 mb-10" />
                     </h1>
 
-                    <form className="flex flex-col gap-y-2" onSubmit={(e) => handleLogin(e)} method="POST">
+                    <form className="flex flex-col gap-y-2 form" onSubmit={(e) => handleLogin(e)} method="POST">
                         <div className="field">
                             <input
                                 id="username"
@@ -132,9 +132,9 @@ const Login = () => {
                     {/* error message */}
                     {loginState.errorMessage && <p className="mb-4 text-sm my-3 text-center text-red-primary ">{loginState.errorMessage}</p>}
 
-                    <p className="flex justify-center mt-4 text-blue-fb text-sm">
+                    {/* <p className="flex justify-center mt-4 text-blue-fb text-sm">
                         <Link to="/forgot">Forgot password?</Link>
-                    </p>
+                    </p> */}
                 </div>
                 {/* sign up link */}
                 <div className="flex justify-center items-center flex-col w-full bg-white p-4 border border-gray-primary">

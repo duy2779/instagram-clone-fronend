@@ -34,24 +34,40 @@ const Header = () => {
                     </div>
                     {/* search input */}
                     <SearchInput />
+                    {
+                        currentUser?.username ? (
+                            <div className="flex gap-x-5 items-center justify-between">
+                                <Link to={ROUTES.DASHBOARD} onClick={() => window.scroll(0, 0)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                    </svg>
+                                </Link>
+                                <UploadImageButton />
+                                <NotificationButton />
+                                {/* avatar link */}
+                                <ProfileMenuActions user={currentUser} logOutOnClick={logOutOnClick} />
 
-                    <div className="flex gap-x-5 items-center justify-between">
-                        <Link to={ROUTES.DASHBOARD} onClick={() => window.scroll(0, 0)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                            </svg>
-                        </Link>
-                        <UploadImageButton />
-                        {/* <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                            </svg>
-                        </button> */}
-                        <NotificationButton />
-                        {/* avatar link */}
-                        <ProfileMenuActions user={currentUser} logOutOnClick={logOutOnClick} />
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-x-2">
+                                <Link to={ROUTES.LOGIN}>
+                                    <button
+                                        className="focus:outline-none text-sm text-white font-semibold bg-blue-medium py-1 px-2 rounded"
+                                    >
+                                        Log In
+                                    </button>
+                                </Link>
+                                <Link to={ROUTES.SIGNUP}>
+                                    <button
+                                        className="focus:outline-none text-sm text-blue-medium font-semibold py-1 px-2 rounded"
+                                    >
+                                        Sign up
+                                    </button>
+                                </Link>
+                            </div>
+                        )
+                    }
 
-                    </div>
                 </div>
             </div>
         </header>

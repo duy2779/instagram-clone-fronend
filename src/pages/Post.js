@@ -12,6 +12,7 @@ import { useParams, useHistory, Link } from 'react-router-dom'
 import { get, getApiURL } from '../features/config'
 import * as ROUTES from '../constants/Routes'
 import { distanceDate } from '../helpers/formatDate'
+import LoadingPage from '../components/LoadingPage'
 
 const imageStyles = {
     maxWidth: '704px',
@@ -116,7 +117,7 @@ const Post = () => {
                 </div>
             </div>
         </Page>
-    ) : null
+    ) : <LoadingPage />
 }
 
 export default Post

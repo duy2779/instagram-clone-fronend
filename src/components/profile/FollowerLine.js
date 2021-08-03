@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { backendURL } from '../../constants/BackendConfig'
 import { useSelector, useDispatch } from 'react-redux'
 import {
     followUser,
-    getUser,
     showUnFollowUserModal,
-    getUserByUserName,
 } from '../../features/userSlice'
 import RemoveFollowerModal from '../RemoveFollowerModal'
 import ToggleFollowSM from '../../common/ToggleFollowSM'
@@ -16,23 +14,14 @@ const FollowerLine = ({ user, isCurrentUserPage }) => {
     const { username, avatar_pic } = user
     const [removeFollowerModalShow, setRemoveFollowerModalShow] = useState(false)
     const [isRemoved, setIsRemoved] = useState(false)
-    const { currentUser, unFollowUserModal, userFocus } = useSelector(state => state.user)
-    const [isFollow, setIsFollow] = useState(() => currentUser.following.includes(user.id))
+    const [removeLoading, setRemoveLoading] = useState(false)
+    const { currentUser, followUserState } = useSelector(state => state.user)
+    const isFollowing = useSelector(state => state.user.currentUser.following.includes(user.id))
     const isCurrentUser = currentUser.username === user.username
 
-    const followOnClick = async () => {
-        await dispatch(followUser(user.username))
-        await dispatch(getUser())
-        await dispatch(getUserByUserName({ username: userFocus.username }))
-        setIsFollow(true)
+    const followOnClick = () => {
+        dispatch(followUser(user.username))
     }
-
-    useEffect(() => {
-        if (unFollowUserModal.unfollow && unFollowUserModal.username === username) {
-            setIsFollow(false)
-        }
-        // eslint-disable-next-line
-    }, [unFollowUserModal])
 
     return (
         <>
@@ -50,17 +39,19 @@ const FollowerLine = ({ user, isCurrentUserPage }) => {
                                 <span className="text-xs font-semibold">
                                     <span className="text-black-base"> · </span>
                                     {
-                                        isFollow ? (
-                                            <span
-                                                className="cursor-pointer"
-                                                onClick={() => dispatch(showUnFollowUserModal({ username, avatar_pic }))}>
-                                                Unfollow
-                                            </span>
-                                        ) : (
-                                            <span className="cursor-pointer text-blue-medium" onClick={followOnClick}>Follow</span>
-                                        )
+                                        followUserState.loading[username] ? (
+                                            <img src="/svg/spinner-gray.svg" className="h-5 inline-block absolute" alt="spinner" />
+                                        ) :
+                                            isFollowing ? (
+                                                <span
+                                                    className="cursor-pointer"
+                                                    onClick={() => dispatch(showUnFollowUserModal({ username, avatar_pic }))}>
+                                                    Unfollow
+                                                </span>
+                                            ) : (
+                                                <span className="cursor-pointer text-blue-medium" onClick={followOnClick}>Follow</span>
+                                            )
                                     }
-
                                 </span>
                             )
                         }
@@ -72,16 +63,21 @@ const FollowerLine = ({ user, isCurrentUserPage }) => {
                 {
                     isCurrentUserPage ? (
                         <button
-                            className={`focus:outline-none rounded text-sm font-semibold border
-                        border-gray-primary px-2 py-1 active:opacity-50 ${isRemoved && 'opacity-50'}`}
+                            className={`relative flex items-center justify-center focus:outline-none rounded text-sm font-semibold border
+                        border-gray-primary px-2 py-1 active:opacity-50 ${removeLoading && 'text-white'} ${isRemoved && 'opacity-50'}`}
                             disabled={isRemoved}
                             onClick={() => setRemoveFollowerModalShow(true)}>
                             {
                                 isRemoved ? 'Removed' : 'Remove'
                             }
+                            {
+                                removeLoading && (
+                                    <img src="/svg/spinner-gray.svg" className="w-8 absolute" alt="spinner" />
+                                )
+                            }
                         </button>
                     ) : !isCurrentUser ? (
-                        <ToggleFollowSM isFollow={isFollow} user={user} followOnClick={followOnClick} />
+                        <ToggleFollowSM isFollowing={isFollowing} user={user} followOnClick={followOnClick} />
                     ) : null
                 }
 
@@ -93,6 +89,7 @@ const FollowerLine = ({ user, isCurrentUserPage }) => {
                     setShow={setRemoveFollowerModalShow}
                     follower={user}
                     setIsRemoved={setIsRemoved}
+                    setRemoveLoading={setRemoveLoading}
                 />
             }
 

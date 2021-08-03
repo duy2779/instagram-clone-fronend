@@ -1,27 +1,18 @@
 import ModalPrioritize from '../common/ModalPrioritize'
 import { useDispatch, useSelector } from 'react-redux'
-import { hideUnFollowUserModal, userSelector, unfollowModalTrue } from '../features/userSlice'
+import { hideUnFollowUserModal, userSelector } from '../features/userSlice'
 import { backendURL } from '../constants/BackendConfig'
-import { followUser, getUser, getUserByUserName } from '../features/userSlice'
-import { useLocation } from 'react-router-dom'
-import { matchPath } from 'react-router'
-import * as ROUTES from '../constants/Routes'
+import { followUser, } from '../features/userSlice'
 
 const UserModal = () => {
     const dispatch = useDispatch()
-    const location = useLocation()
 
-    const { unFollowUserModal, userFocus } = useSelector(userSelector)
+    const { unFollowUserModal } = useSelector(userSelector)
     const { username, avatar } = unFollowUserModal
 
     const unFollowOnClick = async () => {
-        await dispatch(followUser(username))
-        await dispatch(getUser())
-        dispatch(unfollowModalTrue())
-        if (!!matchPath(location.pathname, ROUTES.PROFILE)) {
-            await dispatch(getUserByUserName({ username: userFocus.username }))
-        }
         dispatch(hideUnFollowUserModal())
+        dispatch(followUser(username))
     }
 
     return (

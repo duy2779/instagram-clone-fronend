@@ -98,7 +98,7 @@ const Signup = () => {
                         >OR</span>
                     </p>
 
-                    <form className="flex flex-col gap-y-2" onSubmit={(e) => handleSignUp(e)} method="POST">
+                    <form className="flex flex-col gap-y-2 form" onSubmit={(e) => handleSignUp(e)} method="POST">
                         <div className="field">
                             <input
                                 id="email"

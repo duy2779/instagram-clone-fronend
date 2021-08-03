@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { backendURL } from '../../constants/BackendConfig'
 import ToggleFollow from '../../common/ToggleFollow'
-import { followUser, getUser } from '../../features/userSlice'
+import { followUser } from '../../features/userSlice'
 import { Link } from 'react-router-dom'
 import * as ROUTES from '../../constants/Routes'
 import FollowersModal from './FollowersModal'
@@ -11,42 +11,18 @@ import FollowingModal from './FollowingModal'
 
 const Header = ({ user }) => {
     const dispatch = useDispatch()
-    const [isCurrentUser, setIsCurrentUser] = useState(false)
-    const { currentUser, unFollowUserModal } = useSelector(state => state.user)
-    const [followers, setFollowers] = useState(user.followers.length)
-    const [isFollow, setIsFollow] = useState(() => user.followers.includes(currentUser.id))
+    const { currentUser } = useSelector(state => state.user)
+    const isFollowing = useSelector(state => state.user.currentUser.following.includes(user.id))
 
     const [isFollowersModalShow, setIsFollowersModalShow] = useState(false)
     const [isFollowingModalShow, setIsFollowingModalShow] = useState(false)
 
-    useEffect(() => {
-        if (user.username === currentUser.username) {
-            setIsCurrentUser(true)
-        }
-        // eslint-disable-next-line
-    }, [user.username])
-
-    useEffect(() => {
-        if (unFollowUserModal.unfollow === true && unFollowUserModal.username === user.username) {
-            setIsFollow(false)
-            setFollowers(followers - 1)
-        }
-        // eslint-disable-next-line
-    }, [unFollowUserModal.username, unFollowUserModal.unfollow, user.username])
-
-    useEffect(() => {
-        setFollowers(user.followers.length)
-    }, [user])
-
-    const followOnClick = async () => {
-        await dispatch(followUser(user.username))
-        await dispatch(getUser())
-        setIsFollow(!isFollow)
-        setFollowers(followers + 1)
+    const followOnClick = () => {
+        dispatch(followUser(user.username))
     }
 
     const followersOnclick = () => {
-        if (followers > 0) {
+        if (user.followers.length > 0) {
             setIsFollowersModalShow(true)
         }
     }
@@ -67,14 +43,14 @@ const Header = ({ user }) => {
                     <div className="mb-5 flex flex-col md:flex-row gap-y-2">
                         <p className="text-3xl font-light md:mr-5">{user.username}</p>
                         {
-                            isCurrentUser ? (
+                            user.id === currentUser.id ? (
                                 <Link to={ROUTES.PROFILE_EDIT}>
                                     <button className="border border-gray-primary focus:outline-none rounded px-8 h-8 text-sm font-semibold w-full">
                                         Edit Profile
                                     </button>
                                 </Link>
 
-                            ) : <ToggleFollow isFollow={isFollow} followOnClick={followOnClick} user={user} />
+                            ) : <ToggleFollow isFollowing={isFollowing} followOnClick={followOnClick} user={user} />
                         }
 
                     </div>
@@ -87,9 +63,9 @@ const Header = ({ user }) => {
                                 user.posts_count > 1 ? 'posts' : 'post'
                             }
                         </p>
-                        <p className={`mr-5 ${followers > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followersOnclick}>
+                        <p className={`mr-5 ${user.followers.length > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followersOnclick}>
                             <span className="font-semibold">
-                                {`${followers} `}
+                                {`${user.followers.length} `}
                             </span>
                             followers
                         </p>
@@ -137,9 +113,9 @@ const Header = ({ user }) => {
                     </span>
 
                 </p>
-                <p className={`flex flex-col items-center ${followers > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followersOnclick}>
+                <p className={`flex flex-col items-center ${user.followers.length > 0 && 'cursor-pointer active:opacity-50'}`} onClick={followersOnclick}>
                     <span className="font-semibold">
-                        {`${followers} `}
+                        {`${user.followers.length} `}
                     </span>
                     <span className="text-gray-secondary">followers</span>
                 </p>

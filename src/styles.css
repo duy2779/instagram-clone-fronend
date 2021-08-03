@@ -21,6 +21,10 @@ body{
     visibility: hidden;
 }
 
+.form ::-moz-placeholder {
+    color: transparent;
+}
+
 .form-input:not(:placeholder-shown) + label{
     top: 1px;
     transform: translateY(0);

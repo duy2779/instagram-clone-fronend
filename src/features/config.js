@@ -2,7 +2,10 @@ import axios from 'axios'
 
 const accessToken = () => localStorage.getItem('token') ? localStorage.getItem('token') : null
 
-export const apiEndpointURL = 'https://instegrum.herokuapp.com/api'
+const prodUrl = 'https://instegrum.herokuapp.com/api'
+const devUrl = 'http://127.0.0.1:8000/api'
+
+export const apiEndpointURL = prodUrl
 
 export const getApiURL = (path) => `${apiEndpointURL}/${path}`
 

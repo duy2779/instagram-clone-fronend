@@ -7,14 +7,14 @@ import UserProfile from '../components/profile'
 import { getUserByUserName, clearUserFocus } from '../features/userSlice'
 import { getPostsProfile, clearPostsProfile } from '../features/postsProfileSlice'
 import * as ROUTES from '../constants/Routes'
+import LoadingPage from '../components/LoadingPage'
 
 const Profile = ({ props }) => {
     const history = useHistory()
     const dispatch = useDispatch()
-    const { userFocus } = useSelector(state => state.user)
+    const { userFocus, currentUser } = useSelector(state => state.user)
     const { posts } = useSelector(state => state.postsProfile)
     const { username } = useParams()
-    const [user, setUser] = useState(null)
     const [allPosts, setAllPosts] = useState(posts)
 
     useEffect(() => {
@@ -31,25 +31,22 @@ const Profile = ({ props }) => {
     }, [username, dispatch])
 
     useEffect(() => {
-        if (!userFocus) {
+        if (userFocus.isError) {
             history.push(ROUTES.NOT_FOUND)
-            return
         }
-        setUser(userFocus)
-        // eslint-disable-next-line
-    }, [userFocus, userFocus.followers])
+    }, [userFocus.isError, history])
 
     useEffect(() => {
         setAllPosts(posts)
     }, [posts])
 
-    return user?.username ? (
+    return userFocus.user && currentUser.username ? (
         <Page>
             <div className="mx-auto max-w-screen-lg">
-                <UserProfile user={user} photos={allPosts} />
+                <UserProfile user={userFocus.user} photos={allPosts} />
             </div>
         </Page>
-    ) : null
+    ) : <LoadingPage />
 }
 
 export default Profile

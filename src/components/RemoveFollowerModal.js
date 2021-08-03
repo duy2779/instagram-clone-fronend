@@ -4,21 +4,24 @@ import { getUserByUserName } from '../features/userSlice'
 import { backendURL } from '../constants/BackendConfig'
 import { patch, getApiURL } from '../features/config'
 
-const RemoveFollowerModal = ({ show, setShow, follower, setIsRemoved }) => {
+const RemoveFollowerModal = ({ show, setShow, follower, setIsRemoved, setRemoveLoading }) => {
     const dispatch = useDispatch()
     const { userFocus } = useSelector(state => state.user)
 
     const removeOnClick = async () => {
+        setShow(false)
+        setRemoveLoading(true)
         try {
             const response = await patch({
                 url: getApiURL(`accounts/remove-follower/${follower.username}`)
             })
             if (response.status === 200) {
-                await dispatch(getUserByUserName({ username: userFocus.username }))
+                await dispatch(getUserByUserName({ username: userFocus.user.username }))
+                setRemoveLoading(false)
                 setIsRemoved(true)
-                setShow(false)
             }
         } catch (error) {
+            setRemoveLoading(false)
             console.log(error)
         }
     }

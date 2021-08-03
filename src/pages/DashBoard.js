@@ -3,6 +3,7 @@ import Timeline from "../components/timeline"
 import Sidebar from "../components/sidebar/Sidebar"
 import { useDispatch, useSelector } from 'react-redux'
 import Page from "./Page"
+import LoadingPage from '../components/LoadingPage'
 
 import { userSelector, clearStatus } from '../features/userSlice'
 import { getUserRecommended } from '../features/usersRecommendedSlice'
@@ -32,7 +33,7 @@ const DashBoard = () => {
                 </div>
             </div>
         </Page>
-    ) : null
+    ) : <LoadingPage />
 }
 
 export default DashBoard

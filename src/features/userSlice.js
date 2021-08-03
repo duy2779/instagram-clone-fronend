@@ -7,13 +7,11 @@ const initialState = {
     unFollowUserModal: {
         show: false,
         username: '',
-        avatar: '',
-        unfollow: false
+        avatar: ''
     },
-    isFetching: false,
-    isSuccess: false,
-    isError: false,
-    errorMessage: "",
+    followUserState: {
+        loading: {},
+    },
     upload_info: {
         pending: false,
         success: false,
@@ -89,7 +87,11 @@ export const followUser = createAsyncThunk(
 
             let data = response.data
             if (response.status === 200) {
-                return data
+                const { user } = thunkAPI.getState().user.userFocus
+                user &&
+                    await thunkAPI.dispatch(getUserByUserName({ username: user.username }))
+                await thunkAPI.dispatch(getUser())
+                return username
             }
             else {
                 return thunkAPI.rejectWithValue(data)
@@ -198,19 +200,10 @@ const userSlice = createSlice({
             state.unFollowUserModal = modal
         },
         hideUnFollowUserModal: (state) => {
-            let modal = state.unFollowUserModal
-            modal.show = false
-            modal.username = ''
-            modal.avatar = ''
-            modal.unfollow = false
-
-            state.unFollowUserModal = modal
-        },
-        unfollowModalTrue: (state) => {
-            state.unFollowUserModal.unfollow = true
+            state.unFollowUserModal = initialState.unFollowUserModal
         },
         clearUserFocus(state) {
-            state.userFocus = {}
+            state.userFocus = initialState.userFocus
         }
     },
     extraReducers: {
@@ -229,33 +222,28 @@ const userSlice = createSlice({
         },
         //get user by username 
         [getUserByUserName.pending]: (state) => {
-            state.isFetching = true
+            state.userFocus.isFetching = true
         },
         [getUserByUserName.fulfilled]: (state, { payload }) => {
-            state.userFocus = payload
-            state.isFetching = false
-            state.isSuccess = true
+            state.userFocus.user = payload
+            state.userFocus.isFetching = false
+            state.userFocus.isSuccess = true
         },
         [getUserByUserName.rejected]: (state, { payload }) => {
-            state.isFetching = false
-            state.isError = true
-            state.errorMessage = payload.message
-            if (!payload.exists) {
-                state.userFocus = false
-            }
+            state.userFocus.isFetching = false
+            state.userFocus.isError = true
+            state.userFocus.errorMessage = payload.message
         },
         //folow user
-        [followUser.pending]: (state) => {
-            state.isFetching = true
+        [followUser.pending]: (state, { meta }) => {
+            state.followUserState.loading[meta.arg] = true;
         },
-        [followUser.fulfilled]: (state) => {
-            state.isFetching = false
-            state.isSuccess = true
+        [followUser.fulfilled]: (state, { meta }) => {
+            state.followUserState.loading[meta.arg] = false;
         },
-        [followUser.rejected]: (state, { payload }) => {
-            state.isFetching = false
-            state.isError = true
-            state.errorMessage = payload
+        [followUser.rejected]: (state, { payload, meta }) => {
+            state.followUserState.loading[meta.arg] = false;
+            state.followUserState.error = payload
         },
         //update avatar
         [updateAvatar.pending]: (state) => {
@@ -294,7 +282,6 @@ export const {
     clearUser,
     showUnFollowUserModal,
     hideUnFollowUserModal,
-    unfollowModalTrue,
     clearUserFocus,
     clearUpdateInfo,
     clearUpdateInfoStatus,

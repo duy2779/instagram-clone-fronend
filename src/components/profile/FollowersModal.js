@@ -11,7 +11,7 @@ const FollowersModal = ({ username, isShow, setIsShow }) => {
     const [followers, setFollowers] = useState([])
 
     const { currentUser, userFocus } = useSelector(state => state.user)
-    const isCurrentUserPage = userFocus.username === currentUser.username
+    const isCurrentUserPage = userFocus.user.username === currentUser.username
 
     useEffect(() => {
         async function fetchData() {
