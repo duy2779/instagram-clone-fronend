@@ -1,8 +1,8 @@
 import { backendURL } from '../constants/BackendConfig'
-import NotificationToggleFollow from './NotificationToggleFollow'
+import ToggleFollowSM from '../common/ToggleFollowSM'
 import { Link } from 'react-router-dom'
 
-const Notification = ({notification}) => {
+const Notification = ({ notification }) => {
     return (
         <li
             className="p-2 flex items-center justify-between gap-x-2 mb-2"
@@ -33,7 +33,7 @@ const Notification = ({notification}) => {
             </p>
             {
                 notification.post === null ? (
-                    <NotificationToggleFollow user={notification.created_by} />
+                    <ToggleFollowSM user={notification.created_by} />
                 ) : (
                     <Link to={`/p/${notification.post.id}`}>
                         <img

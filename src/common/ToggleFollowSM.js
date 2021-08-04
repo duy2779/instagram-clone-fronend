@@ -1,18 +1,24 @@
-import { showUnFollowUserModal } from '../features/userSlice'
+import { showUnFollowUserModal, followUser } from '../features/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
-const ToggleFollowSM = ({ isFollowing, followOnClick, user }) => {
+const ToggleFollowSM = ({ user }) => {
     const dispatch = useDispatch()
-    const { username, avatar_pic } = user
+    const { username, avatar_pic, id } = user
+    const isFollowing = useSelector(state => state.user.currentUser.following.includes(id))
     const { loading } = useSelector(state => state.user.followUserState)
+
+    const followOnClick = () => {
+        dispatch(followUser(username))
+    }
+
     return (
         <>
             {
                 isFollowing ? (
-                    <div className="flex items-center justify-center">
+                    <div className="relative flex items-center justify-center">
                         <button
                             className={`border border-gray-primary focus:outline-none
-                     rounded px-2 h-8 text-sm font-semibold ${loading[username] && 'opacity-20'}`}
+                     rounded px-2 h-8 text-sm font-semibold ${loading[username] && 'text-transparent'}`}
                             onClick={() => dispatch(showUnFollowUserModal({ username, avatar_pic }))}
                             disabled={loading[username]}
                         >
@@ -23,17 +29,17 @@ const ToggleFollowSM = ({ isFollowing, followOnClick, user }) => {
                         }
                     </div>
                 ) : (
-                    <div className="flex items-center justify-center">
+                    <div className="relative flex items-center justify-center">
                         <button
                             className={`border rounded px-2 h-8 text-sm focus:outline-none
-                            font-semibold text-white bg-blue-medium ${loading[username] && 'opacity-20'}`}
+                            font-semibold text-white bg-blue-medium ${loading[username] && 'text-blue-medium'}`}
                             onClick={followOnClick}
                             disabled={loading[username]}
                         >
                             Follow
                         </button>
                         {
-                            loading[username] && <img src="/svg/spinner-gray.svg" className="absolute h-8 w-8" alt="spinner" />
+                            loading[username] && <img src="/svg/spinner.svg" className="absolute h-8 w-8" alt="spinner" />
                         }
                     </div>
                 )

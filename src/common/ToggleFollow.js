@@ -1,10 +1,17 @@
-import { showUnFollowUserModal } from '../features/userSlice'
+import { showUnFollowUserModal, followUser } from '../features/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
-const ToggleFollow = ({ isFollowing, followOnClick, user }) => {
+const ToggleFollow = ({ user }) => {
     const dispatch = useDispatch()
-    const { username, avatar_pic } = user
+
+    const { username, avatar_pic, id } = user
+    const isFollowing = useSelector(state => state.user.currentUser.following.includes(id))
     const { loading } = useSelector(state => state.user.followUserState)
+
+    const followOnClick = () => {
+        dispatch(followUser(username))
+    }
+
     return (
         <>
             {

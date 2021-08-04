@@ -1,22 +1,13 @@
 import { Link } from 'react-router-dom'
 import { backendURL } from '../../constants/BackendConfig'
-import { useSelector, useDispatch } from 'react-redux'
-import {
-    followUser,
-} from '../../features/userSlice'
+import { useSelector } from 'react-redux'
+
 import ToggleFollowSM from '../../common/ToggleFollowSM'
 
 const FollowingLine = ({ user }) => {
-    const dispatch = useDispatch()
     const { username } = user
     const { currentUser } = useSelector(state => state.user)
-    const isFollowing = useSelector(state => state.user.currentUser.following.includes(user.id))
     const isCurrentUser = currentUser.username === username
-
-    const followOnClick = () => {
-        dispatch(followUser(user.username))
-    }
-
 
     return (
         <>
@@ -35,7 +26,7 @@ const FollowingLine = ({ user }) => {
                 </div>
                 {
                     !isCurrentUser && (
-                        <ToggleFollowSM isFollowing={isFollowing} user={user} followOnClick={followOnClick} />
+                        <ToggleFollowSM user={user} />
                     )
                 }
 

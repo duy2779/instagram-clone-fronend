@@ -97,8 +97,8 @@ const Notifications = ({ hasUnseen, setHasUnseen, setShowCount }) => {
     }, [])
 
     return (
-        <div className={`notifications absolute top-full mt-3 bg-white -right-10 z-30 rounded`}>
-            <div className="w-96 max-h-96 overflow-auto">
+        <div className={`notifications fixed inset-x-0 mt-11 md:left-auto md:absolute md:top-full md:mt-3 bg-white md:-right-10 z-30 rounded`}>
+            <div className="w-screen md:w-96 max-h-96 overflow-auto">
                 {
                     isFetching ? (
                         <div className="flex justify-center h-28 items-center">

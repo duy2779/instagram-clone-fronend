@@ -77,7 +77,7 @@ const FollowerLine = ({ user, isCurrentUserPage }) => {
                             }
                         </button>
                     ) : !isCurrentUser ? (
-                        <ToggleFollowSM isFollowing={isFollowing} user={user} followOnClick={followOnClick} />
+                        <ToggleFollowSM user={user} />
                     ) : null
                 }
 
