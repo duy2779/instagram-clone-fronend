@@ -19,7 +19,7 @@ const ToggleFollow = ({ user }) => {
                     <div className="flex items-center justify-center">
                         <button
                             className={`border border-gray-primary focus:outline-none
-                     rounded px-8 h-8 text-sm font-semibold ${loading[username] && 'opacity-20'}`}
+                     rounded w-full md:px-8 h-8 text-sm font-semibold ${loading[username] && 'opacity-20'}`}
                             onClick={() => dispatch(showUnFollowUserModal({ username, avatar_pic }))}
                             disabled={loading[username]}
                         >
@@ -32,7 +32,7 @@ const ToggleFollow = ({ user }) => {
                 ) : (
                     <div className="flex items-center justify-center">
                         <button
-                            className={`border rounded px-8 h-8 text-sm focus:outline-none
+                            className={`border rounded w-full md:px-8 h-8 text-sm focus:outline-none
                             font-semibold text-white bg-blue-medium ${loading[username] && 'opacity-20'}`}
                             onClick={followOnClick}
                             disabled={loading[username]}

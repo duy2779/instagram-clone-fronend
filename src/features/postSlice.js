@@ -6,7 +6,11 @@ const initialState = {
     createPostModal: {
         show: false,
         image: '',
-        imagePreview: ''
+        imagePreview: '',
+        isFetching: false,
+        isSuccess: false,
+        isError: false,
+        errorMessage: ""
     },
     isFetching: false,
     isSuccess: false,
@@ -140,20 +144,12 @@ const postSlice = createSlice({
         },
         clearPost: (state) => initialState,
         showCreatePostModal: (state, { payload }) => {
-            let modal = state.createPostModal
-            console.log(payload)
-            modal.show = true
-            modal.image = payload.image
-            modal.imagePreview = payload.imagePreview
-
-            state.createPostModal = modal
+            state.createPostModal.show = true
+            state.createPostModal.image = payload.image
+            state.createPostModal.imagePreview = payload.imagePreview
         },
         hideCreatePostModal: (state) => {
-            let modal = state.createPostModal
-            modal.show = false
-            modal.image = ''
-            modal.imagePreview = ''
-            state.createPostModal = modal
+            state.createPostModal = initialState.createPostModal
         }
     },
     extraReducers: {
@@ -199,16 +195,16 @@ const postSlice = createSlice({
         },
         //create post
         [createPost.pending]: (state) => {
-            state.isFetching = true
+            state.createPostModal.isFetching = true
         },
         [createPost.fulfilled]: (state) => {
-            state.isFetching = false
-            state.isSuccess = true
+            state.createPostModal.isFetching = false
+            state.createPostModal.isSuccess = true
         },
         [createPost.rejected]: (state, { payload }) => {
-            state.isFetching = false
-            state.isError = true
-            state.errorMessage = payload
+            state.createPostModal.isFetching = false
+            state.createPostModal.isError = true
+            state.createPostModal.errorMessage = payload
         },
     }
 });

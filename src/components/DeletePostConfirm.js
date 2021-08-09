@@ -16,8 +16,8 @@ const DeletePostConfirm = () => {
         await dispatch(deletePost({ postID: deletePostConfirm.postID }))
 
         if (!!matchPath(location.pathname, ROUTES.PROFILE)) {
-            await dispatch(getUserByUserName({ username: userFocus.username }))
-            await dispatch(getPostsProfile({ username: userFocus.username }))
+            await dispatch(getUserByUserName({ username: userFocus.user.username }))
+            await dispatch(getPostsProfile({ username: userFocus.user.username }))
         }
         dispatch(hideDeletePostConfirm())
         dispatch(hidePostModal())

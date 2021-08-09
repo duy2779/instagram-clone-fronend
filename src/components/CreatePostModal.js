@@ -25,8 +25,8 @@ function CreatePostModal() {
         }
 
         if (!!matchPath(location.pathname, ROUTES.PROFILE)) {
-            await dispatch(getUserByUserName({ username: userFocus.username }))
-            await dispatch(getPostsProfile({ username: userFocus.username }))
+            await dispatch(getUserByUserName({ username: userFocus.user.username }))
+            await dispatch(getPostsProfile({ username: userFocus.user.username }))
         }
         dispatch(hideCreatePostModal())
     }
@@ -82,8 +82,16 @@ function CreatePostModal() {
                         </div>
                     </div>
 
-                    <button onClick={handleCreatePost} className="w-full h-8 rounded bg-blue-medium font-semibold text-sm focus:outline-none text-white">
+                    <button
+                        onClick={handleCreatePost}
+                        className={`relative flex items-center justify-center w-full h-8 rounded bg-blue-medium
+                                ${createPostModal.isFetching && 'text-blue-medium'} font-semibold text-sm focus:outline-none text-white`}
+                        disabled={createPostModal.isFetching}
+                    >
                         Post
+                        {
+                            createPostModal.isFetching && < img src="/svg/spinner.svg" className="w-10 absolute" alt="spinner" />
+                        }
                     </button>
                 </div>
             </div>
