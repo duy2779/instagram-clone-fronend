@@ -10,6 +10,7 @@ import Caption from '../../common/Caption'
 import PostTools from '../../common/PostTools'
 import { postToggleLike } from '../../features/postSlice'
 import { getPostsProfile } from '../../features/postsProfileSlice'
+import PostHeartOverlay from '../../common/PostHeartOverlay'
 
 const imageStyles = {
     maxWidth: '704px',
@@ -24,6 +25,7 @@ function PostModal() {
     const [allComments, setAllComments] = useState(null)
     const [toggleLike, setToggleLike] = useState(false)
     const [totalLikes, setTotalLikes] = useState(0)
+    const [heartOverlay, setHeartOvelay] = useState(false);
 
     const commentInputRef = useRef(null)
     const handleFocus = () => commentInputRef.current.focus()
@@ -37,19 +39,33 @@ function PostModal() {
         // eslint-disable-next-line
     }, [post])
 
+    const imgDoubleClickHandle = () => {
+        setHeartOvelay(true)
+        setTimeout(() => {
+            setHeartOvelay(false)
+        }, 1000)
+        if (toggleLike) {
+            return
+        }
+        likeOnClick()
+    }
+
 
     const likeOnClick = async () => {
         setToggleLike(!toggleLike)
         setTotalLikes((totalLikes) => toggleLike ? totalLikes - 1 : totalLikes + 1)
         await dispatch(postToggleLike({ postID: post.id }))
-        await dispatch(getPostsProfile({ username: userFocus.username }))
+        await dispatch(getPostsProfile({ username: userFocus.user.username }))
     }
 
     return post ? (
         <Modal show={postModal.show} hide={hidePostModal}>
             <div className="max-w-screen-sm lg:max-w-screen-lg mx-auto flex md:h-96 lg:h-auto" style={{ maxHeight: '600px' }}>
-                <div className="bg-black-base md:w-1/2 lg:w-auto flex">
+                <div className="bg-black-base md:w-1/2 lg:w-auto flex post-img relative" onDoubleClick={imgDoubleClickHandle}>
                     <img src={backendURL + post.image} alt={post.caption} className="h-full w-full lg:h-auto lg:w-auto object-contain" style={imageStyles} />
+                    {
+                        heartOverlay && <PostHeartOverlay />
+                    }
                 </div>
                 {/* post info */}
                 <div className="bg-white w-80 flex flex-col">

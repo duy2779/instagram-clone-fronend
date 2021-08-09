@@ -1,7 +1,16 @@
+import { useState } from "react"
+
 const Like = ({ likeOnClick, toggleLike }) => {
+    const [active, setActive] = useState(false);
+
+    const likeHandle = () => {
+        likeOnClick()
+        setActive(true);
+    }
+
     return (
         <>
-            <button className="mr-2 focus:outline-none" onClick={likeOnClick}>
+            <button className={`mr-2 focus:outline-none like-button ${active ? 'active' : null}`} onClick={likeHandle}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className={`h-8 w-8 ${toggleLike && 'fill-red text-red-500'}`}

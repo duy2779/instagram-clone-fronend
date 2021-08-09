@@ -58,6 +58,46 @@ body{
         transform: scale(var(--growth-to));
     }
 }
+@keyframes like-button-animation{
+    0%,to{-webkit-transform:scale(1);transform:scale(1)}
+    25%{-webkit-transform:scale(1.2);transform:scale(1.2)}
+    50%{-webkit-transform:scale(.95);transform:scale(.95)}
+}
+
+@keyframes like-heart-animation{ 
+    0% { opacity:0; transform:scale(0); }
+    15% { opacity:.9; transform:scale(1.2); }
+    30% { transform:scale(.95); }
+    45%,
+    80% { opacity:.9; transform:scale(1); }
+}
+
+.post-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heart-overlay{
+    transform: scale(0);
+    animation-duration: 1000ms;
+    animation-name: like-heart-animation;
+    animation-timing-function: ease-in-out;
+}
+
+.like-button.active{
+    -webkit-animation-duration: .45s;
+    animation-duration: .45s;
+    -webkit-animation-name: like-button-animation;
+    animation-name: like-button-animation;
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+.like-button:active{
+    animation: none;
+}
 
 .comments::-webkit-scrollbar{
     display: none
