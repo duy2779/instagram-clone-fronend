@@ -104,16 +104,16 @@ const Login = () => {
                         </button>
                     </form>
                     {/* or line */}
-                    <p className="text-sm w-full text-center border-b-2 border-gray-primary mt-6"
+                    {/* <p className="text-sm w-full text-center border-b-2 border-gray-primary mt-6"
                         style={{ lineHeight: '0.1em' }}>
                         <span
                             className="bg-white px-5 text-gray-secondary font-semibold"
                             style={{ fontSize: '0.875em' }}
                         >OR</span>
-                    </p>
+                    </p> */}
                     {/* fb link */}
                     <p className="flex justify-center mt-6 font-semibold text-blue-fb text-sm">
-                        {
+                        {/* {
                             social.isFetching ? (
                                 <img src="/svg/spinner-gray.svg" className="h-10 w-10" alt="spinner" />
                             ) : (
@@ -128,7 +128,7 @@ const Login = () => {
                                     icon={<img className="h-full mt-0.5 w-4 mr-2" src="/images/fb_logo.png" alt="fb-logo" />}
                                 />
                             )
-                        }
+                        } */}
 
                     </p>
                     {/* error message */}

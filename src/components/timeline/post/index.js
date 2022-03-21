@@ -51,7 +51,12 @@ const Post = ({ post }) => {
             {/* header */}
             <Header user={user} post={post} />
             <div className="relative post-img" onDoubleClick={imgDoubleClickHandle}>
-                <img src={backendURL + image} alt="img" className="object-cover w-full" style={{ maxHeight: '800px' }} />
+                <img
+                    src={backendURL + image}
+                    onError={(e) => { e.target.onerror = null; e.target.src = "/images/no-image.png" }}
+                    alt="img" className="object-cover w-full"
+                    style={{ maxHeight: '800px' }}
+                />
                 {
                     heartOverlay && <PostHeartOverlay />
                 }

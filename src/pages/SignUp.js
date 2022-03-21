@@ -71,7 +71,7 @@ const Signup = () => {
                         bg-blue-medium  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none mb-6">
                         Log in with Facebook
                     </button> */}
-                    {
+                    {/* {
                         social.isFetching ? (
                             <button disabled type="submit" className=
                                 "bg-blue-medium  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none mb-6">
@@ -89,16 +89,16 @@ const Signup = () => {
                                 cssClass="bg-blue-medium  w-full rounded h-8 font-semibold text-sm text-white focus:outline-none mb-6"
                             />
                         )
-                    }
+                    } */}
 
                     {/* or line */}
-                    <p className="text-sm w-full text-center border-b border-gray-primary mb-6"
+                    {/* <p className="text-sm w-full text-center border-b border-gray-primary mb-6"
                         style={{ lineHeight: '0.1em' }}>
                         <span
                             className="md:bg-white bg-gray-background px-5 text-gray-secondary font-semibold"
                             style={{ fontSize: '0.875em' }}
                         >OR</span>
-                    </p>
+                    </p> */}
 
                     <form className="flex flex-col gap-y-2 form" onSubmit={(e) => handleSignUp(e)} method="POST">
                         <div className="field">
